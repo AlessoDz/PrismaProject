@@ -260,7 +260,6 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE solicitar_vacante (
     IN p_name VARCHAR(100),
@@ -287,8 +286,8 @@ BEGIN
     -- Finalizar procedimiento
     COMMIT;
 END;;
-
 DELIMITER ;
+
 DELIMITER ;;
 CREATE PROCEDURE aceptar_vacante (
     IN p_id_user INT
@@ -307,8 +306,8 @@ BEGIN
     -- Finalizar procedimiento
     COMMIT;
 END;;
-
 DELIMITER ;
+
 DELIMITER ;;
 CREATE PROCEDURE registrarDocente (
     IN p_id_teacher INT,
@@ -352,8 +351,8 @@ BEGIN
     -- Finalizar procedimiento
     COMMIT;
 END;;
-
 DELIMITER ;
+
 DELIMITER ;;
 CREATE PROCEDURE `listarDocente` ()
 BEGIN
@@ -377,8 +376,8 @@ BEGIN
     WHERE
         u.type = 'docente' AND r.status = 'activo';
 END;;
-
 DELIMITER ;
+
 DELIMITER ;;
 CREATE PROCEDURE actualizarDocente (
     IN p_teacher_id INT,
@@ -429,8 +428,8 @@ BEGIN
     -- Finalizar procedimiento
     COMMIT;
 END;;
-
 DELIMITER ;
+
 DELIMITER ;;
 CREATE PROCEDURE eliminarDocente (
     IN p_id_teacher INT
@@ -459,8 +458,8 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se encontró un usuario asociado al docente';
     END IF;
 END;;
-
 DELIMITER ;
+
 DELIMITER ;;
 insert into user (active, birth_date,dni,email,last_name,name,phone,type) values
     (1,'2001-04-09','74713885','kikecabanillas0003@gmail.com','Cabanillas Rojas','Victor Enrique','968099508','Administrador');
