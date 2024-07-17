@@ -546,6 +546,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_find_user_by_dni`(
 BEGIN
     SELECT * FROM user WHERE dni = p_dni;
 END ;;
+
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -561,13 +562,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-DELIMITER ;;
-
 -- Procedimiento para buscar profesores por nombre completo
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_find_teacher_by_full_name`(IN name VARCHAR(255))
 BEGIN
     SET @namePattern = CONCAT('%', name, '%');
-    SELECT s.*
+    SELECT t.*
     FROM teacher t
     WHERE EXISTS (
         SELECT 1
@@ -576,6 +575,7 @@ BEGIN
           AND (u.name LIKE @namePattern OR u.last_name LIKE @namePattern)
     );
 END ;;
+
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -597,22 +597,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_find_teacher_by_id`(
 BEGIN
     SELECT * FROM teacher WHERE id_teacher = p_id;
 END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_find_user_by_email` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-DELIMITER ;;
 
 -- Procedimiento para obtener el último ID de profesor
 DELIMITER ;
@@ -656,6 +640,214 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_find_user_by_email`(
 BEGIN
     SELECT * FROM user WHERE email = p_email;
 END ;;
+
+DELIMITER ;
+DELIMITER ;;
+CREATE PROCEDURE solicitar_vacante (
+    IN p_name VARCHAR(100),
+    IN p_last_name VARCHAR(100),
+    IN p_birth_date VARCHAR(10),
+    IN p_dni VARCHAR(20),
+    IN p_email VARCHAR(100),
+    IN p_phone VARCHAR(20)
+)
+BEGIN
+    DECLARE v_id_user INT;
+
+    -- Insertar usuario en la tabla user con tipo 'POSTULANTE'
+    INSERT INTO `user` (name, last_name, birth_date, dni, email, phone, type, active)
+    VALUES (p_name, p_last_name, p_birth_date, p_dni, p_email, p_phone, 'POSTULANTE', 1);
+
+    -- Obtener el ID del usuario insertado
+    SET v_id_user = LAST_INSERT_ID();
+
+    -- Insertar solicitud en la tabla registration
+    INSERT INTO registration (registration_date, status, id_user)
+    VALUES (CURDATE(), 'pendiente', v_id_user);
+
+    -- Finalizar procedimiento
+    COMMIT;
+END;;
+
+DELIMITER ;
+DELIMITER ;;
+CREATE PROCEDURE aceptar_vacante (
+    IN p_id_user INT
+)
+BEGIN
+    -- Actualizar el tipo de usuario a 'ESTUDIANTE'
+    UPDATE `user`
+    SET type = 'ESTUDIANTE'
+    WHERE id_user = p_id_user;
+
+    -- Actualizar el estado de la solicitud a 'aceptado'
+    UPDATE registration
+    SET status = 'aceptado'
+    WHERE id_user = p_id_user;
+
+    -- Finalizar procedimiento
+    COMMIT;
+END;;
+
+DELIMITER ;
+DELIMITER ;;
+CREATE PROCEDURE registrarDocente (
+    IN p_id_teacher INT,
+    IN p_password VARCHAR(255),
+    IN p_profile VARCHAR(255),
+    IN p_name VARCHAR(255),
+    IN p_last_name VARCHAR(255),
+    IN p_birth_date VARCHAR(10),
+    IN p_dni VARCHAR(20),
+    IN p_email VARCHAR(100),
+    IN p_phone VARCHAR(20),
+    IN p_speciality_name VARCHAR(255)
+)
+BEGIN
+    DECLARE v_user_id INT;
+    DECLARE v_speciality_id INT;
+    DECLARE v_registration_id INT;
+
+    -- Insertar usuario
+    INSERT INTO `user` (name, last_name, birth_date, dni, email, phone, type, active)
+    VALUES (p_name, p_last_name, p_birth_date, p_dni, p_email, p_phone, 'DOCENTE', 1);
+
+    -- Obtener el ID del usuario insertado
+    SET v_user_id = LAST_INSERT_ID();
+
+    -- Insertar especialidad
+    INSERT INTO speciality (name)
+    VALUES (p_speciality_name);
+
+    -- Obtener el ID de la especialidad insertada
+    SET v_speciality_id = LAST_INSERT_ID();
+
+    -- Insertar registro
+    INSERT INTO registration (registration_date, status, id_user)
+    VALUES (CURDATE(), 'activo', v_user_id);
+
+    -- Insertar docente con el ID proporcionado
+    INSERT INTO teacher (id_teacher, password, profile, id_speciality, id_user)
+    VALUES (p_id_teacher, p_password, p_profile, v_speciality_id, v_user_id);
+
+    -- Finalizar procedimiento
+    COMMIT;
+END;;
+
+DELIMITER ;
+DELIMITER ;;
+CREATE PROCEDURE `listarDocente` ()
+BEGIN
+    SELECT
+        t.id_teacher,
+        t.profile,
+        t.password,
+        s.name AS speciality_name,
+        u.name,
+        u.last_name,
+        u.birth_date,
+        u.dni,
+        u.email,
+        u.phone,
+        r.registration_date
+    FROM
+        teacher t
+            INNER JOIN `user` u ON t.id_user = u.id_user
+            INNER JOIN speciality s ON t.id_speciality = s.id_speciality
+            INNER JOIN registration r ON r.id_user = t.id_user
+    WHERE
+        u.type = 'docente' AND r.status = 'activo';
+END;;
+
+DELIMITER ;
+DELIMITER ;;
+CREATE PROCEDURE actualizarDocente (
+    IN p_teacher_id INT,
+    IN p_password VARCHAR(255),
+    IN p_profile VARCHAR(255),
+    IN p_name VARCHAR(255),
+    IN p_last_name VARCHAR(255),
+    IN p_birth_date VARCHAR(10),
+    IN p_dni VARCHAR(20),
+    IN p_email VARCHAR(100),
+    IN p_phone VARCHAR(20),
+    IN p_speciality_name VARCHAR(255)
+)
+BEGIN
+    DECLARE v_user_id INT;
+    DECLARE v_speciality_id INT;
+
+    -- Obtener el ID del usuario asociado al docente
+    SELECT id_user INTO v_user_id FROM teacher WHERE id_teacher = p_teacher_id;
+
+    -- Actualizar datos del usuario
+    UPDATE `user`
+    SET
+        name = p_name,
+        last_name = p_last_name,
+        birth_date = p_birth_date,
+        dni = p_dni,
+        email = p_email,
+        phone = p_phone
+    WHERE id_user = v_user_id;
+
+    -- Obtener el ID de la especialidad existente o insertar una nueva
+    SELECT id_speciality INTO v_speciality_id FROM speciality WHERE name = p_speciality_name;
+    IF v_speciality_id IS NULL THEN
+        INSERT INTO speciality (name)
+        VALUES (p_speciality_name);
+        SET v_speciality_id = LAST_INSERT_ID();
+    END IF;
+
+    -- Actualizar especialidad del docente
+    UPDATE teacher
+    SET
+        password = p_password,
+        profile = p_profile,
+        id_speciality = v_speciality_id
+    WHERE id_teacher = p_teacher_id;
+
+    -- Finalizar procedimiento
+    COMMIT;
+END;;
+
+DELIMITER ;
+DELIMITER ;;
+CREATE PROCEDURE eliminarDocente (
+    IN p_id_teacher INT
+)
+BEGIN
+    DECLARE v_user_id INT;
+
+    -- Obtener el ID de usuario asociado al docente
+    SELECT id_user INTO v_user_id FROM teacher WHERE id_teacher = p_id_teacher;
+
+    -- Verificar si se encontró un ID de usuario válido
+    IF v_user_id IS NOT NULL THEN
+        -- Eliminar docente de la tabla teacher
+        DELETE FROM teacher WHERE id_teacher = p_id_teacher;
+
+        -- Actualizar el estado del usuario a "eliminado" en la tabla user
+        UPDATE `user` SET active = 0 WHERE id_user = v_user_id;
+
+        -- Actualizar el registro de inscripción asociado al usuario a "eliminado"
+        UPDATE registration SET status = 'eliminado' WHERE id_user = v_user_id;
+
+        -- Finalizar procedimiento
+        COMMIT;
+    ELSE
+        -- Mostrar mensaje de error o registrar un evento de error
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se encontró un usuario asociado al docente';
+    END IF;
+END;;
+
+DELIMITER ;
+DELIMITER ;;
+insert into user (active, birth_date,dni,email,last_name,name,phone,type) values
+    (1,'2001-04-09','74713885','kikecabanillas0003@gmail.com','Cabanillas Rojas','Victor Enrique','968099508','Administrador');
+insert into admin (id_admin,password,profile,id_user) values
+                                                          (1,'123456','U21218723',1);
+
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -670,5 +862,5 @@ DELIMITER ;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
+DELIMITER ;;
 -- Dump completed on 2024-06-21 15:49:07
