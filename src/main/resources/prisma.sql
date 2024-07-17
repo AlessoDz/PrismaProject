@@ -1,6 +1,27 @@
 CREATE DATABASE  IF NOT EXISTS `prisma`;
 USE `prisma`;
 
+
+--
+-- Table structure for table `user`
+--
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+                        `id_user` bigint NOT NULL AUTO_INCREMENT,
+                        `active` bit(1) NOT NULL,
+                        `birth_date` datetime(6) DEFAULT NULL,
+                        `dni` varchar(255) DEFAULT NULL,
+                        `email` varchar(255) DEFAULT NULL,
+                        `last_name` varchar(255) DEFAULT NULL,
+                        `name` varchar(255) DEFAULT NULL,
+                        `phone` varchar(255) DEFAULT NULL,
+                        `type` varchar(255) DEFAULT NULL,
+                        PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 --
 -- Table structure for table `admin`
 --
@@ -19,6 +40,38 @@ CREATE TABLE `admin` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `speciality`
+--
+DROP TABLE IF EXISTS `speciality`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `speciality` (
+                              `id_speciality` bigint NOT NULL AUTO_INCREMENT,
+                              `name` varchar(255) DEFAULT NULL,
+                              PRIMARY KEY (`id_speciality`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `teacher`
+--
+DROP TABLE IF EXISTS `teacher`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `teacher` (
+                           `id_teacher` varchar(10) NOT NULL,
+                           `password` varchar(255) DEFAULT NULL,
+                           `profile` varchar(255) DEFAULT NULL,
+                           `id_speciality` bigint DEFAULT NULL,
+                           `id_user` bigint DEFAULT NULL,
+                           PRIMARY KEY (`id_teacher`),
+                           UNIQUE KEY `UK1giqscy9vr0y3b2anvkyadcxe` (`id_user`),
+                           KEY `FKmlud55bajemvfwr2rwqswgl5r` (`id_speciality`),
+                           CONSTRAINT `FK1j8r4d0olybhmcj1r9bn3shuu` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
+                           CONSTRAINT `FKmlud55bajemvfwr2rwqswgl5r` FOREIGN KEY (`id_speciality`) REFERENCES `speciality` (`id_speciality`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+--
 -- Table structure for table `applicant`
 --
 DROP TABLE IF EXISTS `applicant`;
@@ -34,26 +87,25 @@ CREATE TABLE `applicant` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `class`
+-- Table structure for table `student`
 --
-DROP TABLE IF EXISTS `class`;
+DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `class` (
-                         `id_class` bigint NOT NULL AUTO_INCREMENT,
-                         `day` varchar(255) DEFAULT NULL,
-                         `end_time` time(6) DEFAULT NULL,
-                         `start_time` time(6) DEFAULT NULL,
-                         `id_classroom` bigint DEFAULT NULL,
-                         `id_course` bigint DEFAULT NULL,
-                         `id_teacher` varchar(10) DEFAULT NULL,
-                         PRIMARY KEY (`id_class`),
-                         KEY `FK45omcp4kjjfm2rk43cccqbvv3` (`id_classroom`),
-                         KEY `FKmgykbnc31e15wbwnms085l9tv` (`id_course`),
-                         KEY `FKgt2pwx13so4rdtnjxh2wvtwhk` (`id_teacher`),
-                         CONSTRAINT `FK45omcp4kjjfm2rk43cccqbvv3` FOREIGN KEY (`id_classroom`) REFERENCES `classroom` (`id_classroom`),
-                         CONSTRAINT `FKgt2pwx13so4rdtnjxh2wvtwhk` FOREIGN KEY (`id_teacher`) REFERENCES `teacher` (`id_teacher`),
-                         CONSTRAINT `FKmgykbnc31e15wbwnms085l9tv` FOREIGN KEY (`id_course`) REFERENCES `course` (`id_course`)
+CREATE TABLE `student` (
+                           `id_student` varchar(10) NOT NULL,
+                           `entry_date` datetime(6) DEFAULT NULL,
+                           `grade` bigint DEFAULT NULL,
+                           `password` varchar(255) DEFAULT NULL,
+                           `payment_status` bit(1) NOT NULL,
+                           `profile` varchar(255) DEFAULT NULL,
+                           `section` varchar(255) DEFAULT NULL,
+                           `shift` varchar(255) DEFAULT NULL,
+                           `study_level` varchar(255) DEFAULT NULL,
+                           `id_user` bigint DEFAULT NULL,
+                           PRIMARY KEY (`id_student`),
+                           UNIQUE KEY `UKgk5vu6ga9cu8ho09qs12cq91l` (`id_user`),
+                           CONSTRAINT `FKb4lfwbonj876jqkfv3syhp06o` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -80,6 +132,30 @@ CREATE TABLE `course` (
                           `id_course` bigint NOT NULL AUTO_INCREMENT,
                           `name` varchar(255) DEFAULT NULL,
                           PRIMARY KEY (`id_course`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `class`
+--
+DROP TABLE IF EXISTS `class`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `class` (
+                         `id_class` bigint NOT NULL AUTO_INCREMENT,
+                         `day` varchar(255) DEFAULT NULL,
+                         `end_time` time(6) DEFAULT NULL,
+                         `start_time` time(6) DEFAULT NULL,
+                         `id_classroom` bigint DEFAULT NULL,
+                         `id_course` bigint DEFAULT NULL,
+                         `id_teacher` varchar(10) DEFAULT NULL,
+                         PRIMARY KEY (`id_class`),
+                         KEY `FK45omcp4kjjfm2rk43cccqbvv3` (`id_classroom`),
+                         KEY `FKmgykbnc31e15wbwnms085l9tv` (`id_course`),
+                         KEY `FKgt2pwx13so4rdtnjxh2wvtwhk` (`id_teacher`),
+                         CONSTRAINT `FK45omcp4kjjfm2rk43cccqbvv3` FOREIGN KEY (`id_classroom`) REFERENCES `classroom` (`id_classroom`),
+                         CONSTRAINT `FKgt2pwx13so4rdtnjxh2wvtwhk` FOREIGN KEY (`id_teacher`) REFERENCES `teacher` (`id_teacher`),
+                         CONSTRAINT `FKmgykbnc31e15wbwnms085l9tv` FOREIGN KEY (`id_course`) REFERENCES `course` (`id_course`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -167,42 +243,6 @@ CREATE TABLE `registration` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `speciality`
---
-DROP TABLE IF EXISTS `speciality`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `speciality` (
-                              `id_speciality` bigint NOT NULL AUTO_INCREMENT,
-                              `name` varchar(255) DEFAULT NULL,
-                              PRIMARY KEY (`id_speciality`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `student`
---
-DROP TABLE IF EXISTS `student`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `student` (
-                           `id_student` varchar(10) NOT NULL,
-                           `entry_date` datetime(6) DEFAULT NULL,
-                           `grade` bigint DEFAULT NULL,
-                           `password` varchar(255) DEFAULT NULL,
-                           `payment_status` bit(1) NOT NULL,
-                           `profile` varchar(255) DEFAULT NULL,
-                           `section` varchar(255) DEFAULT NULL,
-                           `shift` varchar(255) DEFAULT NULL,
-                           `study_level` varchar(255) DEFAULT NULL,
-                           `id_user` bigint DEFAULT NULL,
-                           PRIMARY KEY (`id_student`),
-                           UNIQUE KEY `UKgk5vu6ga9cu8ho09qs12cq91l` (`id_user`),
-                           CONSTRAINT `FKb4lfwbonj876jqkfv3syhp06o` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `student_class_assignment`
 --
 DROP TABLE IF EXISTS `student_class_assignment`;
@@ -218,46 +258,6 @@ CREATE TABLE `student_class_assignment` (
                                             CONSTRAINT `FKk4w7fkoa893w6qs4phoai8a4w` FOREIGN KEY (`id_class`) REFERENCES `class` (`id_class`),
                                             CONSTRAINT `FKomft8if286nf1v5daapt5isqq` FOREIGN KEY (`id_student`) REFERENCES `student` (`id_student`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `teacher`
---
-DROP TABLE IF EXISTS `teacher`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `teacher` (
-                           `id_teacher` varchar(10) NOT NULL,
-                           `password` varchar(255) DEFAULT NULL,
-                           `profile` varchar(255) DEFAULT NULL,
-                           `id_speciality` bigint DEFAULT NULL,
-                           `id_user` bigint DEFAULT NULL,
-                           PRIMARY KEY (`id_teacher`),
-                           UNIQUE KEY `UK1giqscy9vr0y3b2anvkyadcxe` (`id_user`),
-                           KEY `FKmlud55bajemvfwr2rwqswgl5r` (`id_speciality`),
-                           CONSTRAINT `FK1j8r4d0olybhmcj1r9bn3shuu` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
-                           CONSTRAINT `FKmlud55bajemvfwr2rwqswgl5r` FOREIGN KEY (`id_speciality`) REFERENCES `speciality` (`id_speciality`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `user`
---
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-                        `id_user` bigint NOT NULL AUTO_INCREMENT,
-                        `active` bit(1) NOT NULL,
-                        `birth_date` datetime(6) DEFAULT NULL,
-                        `dni` varchar(255) DEFAULT NULL,
-                        `email` varchar(255) DEFAULT NULL,
-                        `last_name` varchar(255) DEFAULT NULL,
-                        `name` varchar(255) DEFAULT NULL,
-                        `phone` varchar(255) DEFAULT NULL,
-                        `type` varchar(255) DEFAULT NULL,
-                        PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DELIMITER ;;
