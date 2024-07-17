@@ -1,0 +1,280 @@
+/* Reset de estilos básicos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Barra de navegación */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #333;
+    color: #fff;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.cta {
+    display: flex;
+    gap: 1rem;
+}
+
+.cta a {
+    color: #fff;
+    background: #007bff;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.cta a.btn-iniciar {
+    background: #28a745;
+}
+
+/* Estilos específicos de sección */
+.bienvenida {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background: #f4f4f4;
+}
+
+.bienvenida .text {
+    max-width: 50%;
+}
+
+.bienvenida .btn-contacto, .bienvenida .btn-registrar {
+    display: inline-block;
+    margin-top: 1rem;
+    background: #007bff;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.bienvenida .btn-registrar {
+    background: #ffc107;
+    margin-left: 1rem;
+}
+
+.bienvenida .image img {
+    max-width: 100%;
+}
+
+.excelencia-academica {
+    padding: 2rem;
+    text-align: center;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.feature {
+    max-width: 30%;
+}
+
+/* Estilos para la sección Contáctanos */
+.contacto {
+    padding: 2rem;
+    background: #f4f4f4;
+    text-align: center;
+}
+
+.contacto h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.contacto-details {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    gap: 2rem; /* Espaciado entre los detalles de contacto */
+}
+
+.detail {
+    max-width: 30%; /* Ancho máximo para los detalles de contacto */
+    flex: 1 1 auto; /* Flex-grow, flex-shrink, flex-basis */
+}
+
+.detail h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.detail p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.redes-sociales {
+    display: flex; /* Mostrar en una fila */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    flex-direction: column; /* Cambiar a dirección de columna */
+    gap: 0.2rem; /* Espaciado entre los íconos y los textos */
+}
+
+.redes-sociales a {
+    display: flex; /* Para alinear ícono y texto verticalmente */
+    align-items: center; /* Alinear ícono y texto verticalmente */
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.redes-sociales a:hover {
+    background: #007bff;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.redes-sociales i {
+    margin-right: 0.5rem;
+}
+
+
+/* Estilos para la sección Conócenos */
+.conocenos {
+    padding: 2rem;
+    background: #f4f4f4;
+    text-align: center;
+}
+
+.conocenos h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.conocenos-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    gap: 2rem; /* Espaciado entre los bloques de información */
+}
+
+.conocenos-text, .conocenos-image {
+    width: 45%; /* Tamaño de los contenedores de texto e imagen */
+    flex: 1 1 auto; /* Flex-grow, flex-shrink, flex-basis */
+}
+
+.conocenos-text {
+    text-align: left; /* Alinear el texto a la izquierda */
+    margin-bottom: 2rem; /* Espacio inferior */
+}
+
+.info-block {
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem; /* Espacio inferior entre bloques */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-block:hover {
+    transform: translateY(-5px); /* Efecto de levantamiento al pasar el cursor */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.info-block h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.text-content {
+    color: #666;
+    line-height: 1.6;
+}
+
+.toggle-btn {
+    display: block;
+    margin-top: 1rem;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: #0056b3;
+}
+
+.additional-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #666;
+    line-height: 1.6;
+}
+
+
+/* Estilos para los botones de "Ver más" */
+.toggle-btn {
+    display: block;
+    margin-top: 0.5rem;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: #0056b3;
+}
+
+/* Estilos de pie de página */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: #333;
+    color: #fff;
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio PRISMA</title>
+    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">
+            <h1>I.E.P. PRISMA</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#bienvenida">Inicio</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#contacto">Contáctanos</a></li>
+        </ul>
+        <div class="cta">
+            <a href="/HTML/login/login.html" class="btn btn-iniciar">Iniciar Sesión</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="bienvenida">
+        <div class="text">
+            <h2>BIENVENIDO AL COLEGIO PRISMA</h2>
+            <p>
+                Juntos construimos un futuro brillante para nuestros estudiantes<br>
+                nosotros somos "El camino hacia la EXCELENCIA"
+            </p>
+            <a href="#" class="btn btn-contacto">Conoce Más <i class="fas fa-chevron-right"></i></a>
+            <a href="/HTML/Usuario/solicitarVacante.html" class="btn btn-registrar">Inscribete Ahora <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="image">
+            <img src="/img/student.png" alt="Estudiantes">
+        </div>
+    </section>
+
+    <section class="excelencia-academica">
+        <h2>Excelencia Académica</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>Plan de Estudios Sólidos</h3>
+                <p>Nuestro programa academico esta diseñado
+                    para desafiar y enriquecer a nuestros estudiantes
+                </p>
+            </div>
+            <div class="feature">
+                <h3>Maestros Excepcionales</h3>
+                <p>Contamos con un equipo docente altamente calificado y apasionado
+                para la enseñanza.</p>
+            </div>
+            <div class="feature">
+                <h3>Instalaciones de Vanguardia</h3>
+                <p>Contamos con instalaciones que optimizaran el proceso de
+                aprendizaje de los estudiantes</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contacto">
+        <h2>Contáctanos</h2>
+        <div class="contacto-details">
+            <div class="detail">
+                <h3>Llámanos <i class="fas fa-phone"></i></h3>
+                <p>951234567</p>
+            </div>
+            <div class="detail">
+                <div class="redes-sociales">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i>Colegio Prisma Peru</a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i>@prisma_monsefú</a>
+                    <a href="mailto:contacto@colegioprisma.com"><i class="fas fa-envelope"></i>prisma@gmail.com</a>
+                </div>
+            </div>
+            <div class="detail">
+                <h3>Visítanos <i class="fas fa-map-marker-alt"></i></h3>
+                <p>Av. Siempre Viva 123, Lima</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="conocenos">
+        <h2>Conócenos</h2>
+        <div class="conocenos-container">
+            <div class="conocenos-text">
+                <div class="info-block" id="mision">
+                    <h3>Nuestra misión</h3>
+                    <p class="text-content">
+                        Brindar una educación de alta calidad que fomente el desarrollo intelectual, emocional y social de nuestros estudiantes, promoviendo valores éticos y el respeto por la diversidad, mediante una metodología innovadora y el uso de tecnologías avanzadas, en un ambiente seguro y estimulante.
+                    </p>
+                    <button class="toggle-btn" data-target="mision"> <i class="fas fa-plus-circle"></i></button>
+                </div>
+                <div class="info-block" id="vision">
+                    <h3>Nuestra visión</h3>
+                    <p class="text-content">
+                        Ser una institución educativa líder en la formación integral de estudiantes de inicial, primaria y secundaria, reconocida por su excelencia académica, innovación tecnológica y compromiso con la comunidad, preparando a nuestros alumnos para enfrentar los desafíos del mundo globalizado.
+                    </p>
+                    <button class="toggle-btn" data-target="vision"> <i class="fas fa-plus-circle"></i></button>
+                </div>
+            </div>
+            <div class="conocenos-image">
+                <img src="/img/about.png" alt="Conócenos">
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 Colegio PRISMA. Todos los derechos reservados.</p>
+</footer>
+
+<script src="JS/index.js"></script>
+</body>
+</html>
