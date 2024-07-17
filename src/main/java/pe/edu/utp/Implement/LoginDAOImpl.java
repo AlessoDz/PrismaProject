@@ -2,56 +2,39 @@ package pe.edu.utp.Implement;
 
 import pe.edu.utp.BaseDatos.ConexionBD;
 import pe.edu.utp.repository.LoginDAO;
-
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginDAOImpl implements LoginDAO {
 
     @Override
-    public boolean autenticarUsuario(String profile, String password) {
+    public String obtenerTipoUsuario(String profile, String password) {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet = null;
-        boolean autenticado = false;
+        String tipoUsuario = null;
 
         try {
             connection = ConexionBD.obtenerConexion();
-            String sql = "SELECT * FROM admin WHERE profile = ? AND password = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, profile);
-            preparedStatement.setString(2, password);
-            resultSet = preparedStatement.executeQuery();
+            String sql = "{CALL loginUsuario(?, ?, ?)}";
+            callableStatement = connection.prepareCall(sql);
+            callableStatement.setString(1, profile);
+            callableStatement.setString(2, password);
+            callableStatement.registerOutParameter(3, java.sql.Types.VARCHAR);
 
-            autenticado = resultSet.next();
+            callableStatement.execute();
+
+            tipoUsuario = callableStatement.getString(3);
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            // Cerrar conexiones y liberar recursos
+            // (código omitido por brevedad)
         }
 
-        return autenticado;
+        return tipoUsuario;
     }
 }

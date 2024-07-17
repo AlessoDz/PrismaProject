@@ -14,7 +14,7 @@ public class DocenteDAOImpl implements DocenteDAO {
     private static final String LISTAR_DOCENTES_SQL = "{CALL listarDocente()}";
     private static final String ACTUALIZAR_DOCENTE_SQL = "{CALL actualizarDocente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
     private static final String ELIMINAR_DOCENTE_SQL = "{CALL eliminarDocente(?)}";
-    private static final String BUSCAR_DOCENTES_SQL = "SELECT * FROM teacher WHERE profile LIKE ?";
+    private static final String BUSCAR_DOCENTES_SQL = "{CALL buscarDocentes(?)}";
 
     @Override
     public void registrarDocente(Docente docente) {
@@ -113,7 +113,11 @@ public class DocenteDAOImpl implements DocenteDAO {
                 while (resultSet.next()) {
                     Docente docente = new Docente();
                     docente.setIdDocente(resultSet.getString("id_teacher"));
-                    docente.setNombre(resultSet.getString("profile"));
+                    docente.setProfile(resultSet.getString("profile"));
+                    docente.setNombre(resultSet.getString("name"));
+                    docente.setApellido(resultSet.getString("last_name"));
+                    docente.setEmail(resultSet.getString("email"));
+                    docente.setTelefono(resultSet.getString("phone"));
                     docentes.add(docente);
                 }
             }

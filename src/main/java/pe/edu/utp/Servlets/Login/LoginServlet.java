@@ -6,11 +6,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pe.edu.utp.Implement.LoginDAOImpl;
 import pe.edu.utp.repository.LoginDAO;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/loginAdmin")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -27,11 +26,26 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
+        // Inicializar el DAO para autenticación
         LoginDAO loginDAO = new LoginDAOImpl();
-        boolean autenticado = loginDAO.autenticarUsuario(profile, password);
+        String tipoUsuario = loginDAO.obtenerTipoUsuario(profile, password);
 
-        if (autenticado) {
-            response.sendRedirect("/HTML/administrador/dashboardAdmin.html");
+        // Redirigir según el tipo de usuario
+        if (tipoUsuario != null) {
+            switch (tipoUsuario) {
+                case "Administrador":
+                    response.sendRedirect("/HTML/administrador/dashboardAdmin.html");
+                    break;
+                case "Docente":
+                    response.sendRedirect("/HTML/docente/dashboardDocente.html");
+                    break;
+                case "Estudiante":
+                    response.sendRedirect("/HTML/estudiante/dashboardEstudiante.html");
+                    break;
+                default:
+                    out.println("Tipo de usuario no reconocido.");
+                    break;
+            }
         } else {
             out.println("Perfil o contraseña incorrectos. Intenta nuevamente.");
         }

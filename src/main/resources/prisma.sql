@@ -274,7 +274,7 @@ BEGIN
 
     -- Insertar usuario en la tabla user con tipo 'POSTULANTE'
     INSERT INTO `user` (name, last_name, birth_date, dni, email, phone, type, active)
-    VALUES (p_name, p_last_name, p_birth_date, p_dni, p_email, p_phone, 'POSTULANTE', 1);
+    VALUES (p_name, p_last_name, p_birth_date, p_dni, p_email, p_phone, 'Postulante', 1);
 
     -- Obtener el ID del usuario insertado
     SET v_id_user = LAST_INSERT_ID();
@@ -295,7 +295,7 @@ CREATE PROCEDURE aceptar_vacante (
 BEGIN
     -- Actualizar el tipo de usuario a 'ESTUDIANTE'
     UPDATE `user`
-    SET type = 'ESTUDIANTE'
+    SET type = 'Estudiante'
     WHERE id_user = p_id_user;
 
     -- Actualizar el estado de la solicitud a 'aceptado'
@@ -328,7 +328,7 @@ BEGIN
 
     -- Insertar usuario
     INSERT INTO `user` (name, last_name, birth_date, dni, email, phone, type, active)
-    VALUES (p_name, p_last_name, p_birth_date, p_dni, p_email, p_phone, 'DOCENTE', 1);
+    VALUES (p_name, p_last_name, p_birth_date, p_dni, p_email, p_phone, 'Docente', 1);
 
     -- Obtener el ID del usuario insertado
     SET v_user_id = LAST_INSERT_ID();
@@ -374,7 +374,7 @@ BEGIN
             INNER JOIN speciality s ON t.id_speciality = s.id_speciality
             INNER JOIN registration r ON r.id_user = t.id_user
     WHERE
-        u.type = 'docente' AND r.status = 'activo';
+        u.type = 'Docente' AND r.status = 'activo';
 END;;
 DELIMITER ;
 
@@ -461,7 +461,54 @@ END;;
 DELIMITER ;
 
 DELIMITER ;;
+CREATE PROCEDURE buscarDocentes(IN nombre VARCHAR(255))
+BEGIN
+    SELECT
+        t.id_teacher, t.profile, u.name, u.last_name, u.email, u.phone, s.name AS speciality_name
+    FROM teacher t
+    INNER JOIN user u ON t.id_user = u.id_user
+    INNER JOIN speciality s ON t.id_speciality = s.id_speciality
+    WHERE u.name LIKE CONCAT('%', nombre, '%');
+END;;
+
+DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE loginUsuario(
+    IN p_profile VARCHAR(255), IN p_password VARCHAR(255), OUT p_type VARCHAR(255)
+)
+BEGIN
+    -- Inicializar p_type como NULL
+    SET p_type = NULL;
+
+    -- Buscar en la tabla admin
+    SELECT 'Administrador' INTO p_type
+    FROM admin a
+    INNER JOIN user u ON a.id_user = u.id_user
+    WHERE a.profile = p_profile AND a.password = p_password
+    LIMIT 1;
+
+    -- Buscar en la tabla teacher si no se encontró en admin
+    IF p_type IS NULL THEN
+        SELECT 'Docente' INTO p_type
+        FROM teacher t
+        INNER JOIN user u ON t.id_user = u.id_user
+        WHERE t.profile = p_profile AND t.password = p_password
+        LIMIT 1;
+    END IF;
+
+    -- Buscar en la tabla student si no se encontró en admin ni teacher
+    IF p_type IS NULL THEN
+        SELECT 'Estudiante' INTO p_type
+        FROM student s
+        INNER JOIN user u ON s.id_user = u.id_user
+        WHERE s.profile = p_profile AND s.password = p_password
+        LIMIT 1;
+    END IF;
+
+END;;
+DELIMITER ;
+
 insert into user (active, birth_date,dni,email,last_name,name,phone,type) values
     (1,'2001-04-09','74713885','kikecabanillas0003@gmail.com','Cabanillas Rojas','Victor Enrique','968099508','Administrador');
-insert into admin (id_admin,password,profile,id_user) values
-                                                          (1,'123456','U21218723',1);
+insert into admin (id_admin,password,profile,id_user) values (1,'123456','U21218723',1);

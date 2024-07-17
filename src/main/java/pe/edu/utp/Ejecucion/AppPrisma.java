@@ -21,7 +21,7 @@ public class AppPrisma {
 
         JettyUTP webserver = new JettyUTP(8080, path);
         webserver.addServlet(SolicitarVacanteServlet.class,"/solicitarVacante");
-        webserver.addServlet(LoginServlet.class,"/loginAdmin");
+        webserver.addServlet(LoginServlet.class,"/login");
         webserver.addServlet(AceptarVacanteServlet.class,"/aceptarVacante");
         webserver.addServlet(ListarVacantesServlet.class,"/listarVacantes");
         webserver.addServlet(ListarCursosServlet.class,"/listarCursos");

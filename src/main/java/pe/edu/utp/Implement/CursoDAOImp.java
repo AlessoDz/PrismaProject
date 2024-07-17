@@ -3,7 +3,6 @@ package pe.edu.utp.Implement;
 import pe.edu.utp.BaseDatos.ConexionBD;
 import pe.edu.utp.model.Curso;
 import pe.edu.utp.repository.CursoDAO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
