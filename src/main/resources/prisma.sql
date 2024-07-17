@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `prisma`;
 USE `prisma`;
-assar
+
 
 --
 -- Table structure for table `user`
