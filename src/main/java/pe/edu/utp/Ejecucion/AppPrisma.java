@@ -1,4 +1,9 @@
 package pe.edu.utp.Ejecucion;
+
+import pe.edu.utp.Servlets.Aulas.EditarAula;
+import pe.edu.utp.Servlets.Aulas.EliminarAula;
+import pe.edu.utp.Servlets.Aulas.ListarAulaServlet;
+import pe.edu.utp.Servlets.Aulas.registrarAula;
 import pe.edu.utp.Servlets.Cursos.EditarCursoServlet;
 import pe.edu.utp.Servlets.Cursos.EliminarCurso;
 import pe.edu.utp.Servlets.Cursos.ListarCursosServlet;
@@ -12,7 +17,6 @@ import pe.edu.utp.Servlets.Vacantes.AceptarVacanteServlet;
 import pe.edu.utp.Servlets.Vacantes.ListarVacantesServlet;
 import pe.edu.utp.Servlets.Vacantes.SolicitarVacanteServlet;
 import pe.edu.utp.utils.JettyUTP;
-
 import java.net.URL;
 
 public class AppPrisma {
@@ -32,6 +36,10 @@ public class AppPrisma {
         webserver.addServlet(RegistrarDocente.class,"/registrarDocente");
         webserver.addServlet(ActualizarDocente.class,"/actualizarDocente");
         webserver.addServlet(EliminarDocente.class,"/eliminarDocente");
+        webserver.addServlet(ListarAulaServlet.class,"/ListarAula");
+        webserver.addServlet(registrarAula.class,"/registrarAula");
+        webserver.addServlet(EditarAula.class,"/editarAula");
+        webserver.addServlet(EliminarAula.class,"/eliminarAula");
 
 
         URL myURL = new URL("http://localhost:8080");
@@ -42,8 +50,7 @@ public class AppPrisma {
     }
 
     public static String getErrorLogFile() {
-        String archivo = new String(
-                "src/main/resources/errores.txt");
+        String archivo = new String("src/main/resources/errores.txt");
         return archivo;
     }
 }

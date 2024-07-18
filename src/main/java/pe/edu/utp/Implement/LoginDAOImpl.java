@@ -2,10 +2,7 @@ package pe.edu.utp.Implement;
 
 import pe.edu.utp.BaseDatos.ConexionBD;
 import pe.edu.utp.repository.LoginDAO;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LoginDAOImpl implements LoginDAO {
 
@@ -30,11 +27,39 @@ public class LoginDAOImpl implements LoginDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Cerrar conexiones y liberar recursos
-            // (código omitido por brevedad)
         }
 
         return tipoUsuario;
+    }
+
+    @Override
+    public String obtenerIdUsuario(String profile, String password) {
+        Connection connection = null;
+        CallableStatement callableStatement = null;
+        String idUsuario = null;
+
+        try {
+            connection = ConexionBD.obtenerConexion();
+            String sql = "{CALL obtenerIdUsuario(?, ?, ?)}";
+            callableStatement = connection.prepareCall(sql);
+            callableStatement.setString(1, profile);
+            callableStatement.setString(2, password);
+            callableStatement.registerOutParameter(3, java.sql.Types.VARCHAR);
+
+            callableStatement.execute();
+
+            idUsuario = callableStatement.getString(3);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (callableStatement != null) callableStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return idUsuario;
     }
 }

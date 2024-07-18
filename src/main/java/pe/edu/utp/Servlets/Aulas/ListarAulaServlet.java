@@ -1,22 +1,21 @@
-package pe.edu.utp.Servlets.Cursos;
+package pe.edu.utp.Servlets.Aulas;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pe.edu.utp.Implement.CursoDAOImp;
-import pe.edu.utp.model.Curso;
-import pe.edu.utp.repository.CursoDAO;
+import pe.edu.utp.Implement.AulaDAOImpl;
+import pe.edu.utp.model.Aula;
+import pe.edu.utp.repository.AulaDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/listarCursos")
-public class ListarCursosServlet extends HttpServlet {
+@WebServlet("/ListarAula")
+public class ListarAulaServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -112,37 +111,37 @@ public class ListarCursosServlet extends HttpServlet {
         out.println("</head>");
         out.println("<body>");
 
-        out.println("<h1>Listado de Cursos</h1>");
+        out.println("<h1>Listado de Aulas</h1>");
 
         // Formulario de búsqueda
-        out.println("<form action='/listarCursos' method='get'>");
-        out.println("<input type='text' name='query' placeholder='Buscar cursos...' class='form-input'>");
+        out.println("<form action='/ListarAula' method='get'>");
+        out.println("<input type='text' name='query' placeholder='Buscar aulas...' class='form-input'>");
         out.println("<input type='submit' value='Buscar' class='btn'>");
         out.println("</form>");
 
         // Obtener lista de cursos desde la base de datos
-        CursoDAO cursoDAO = new CursoDAOImp();
+        AulaDAO aulaDAO = new AulaDAOImpl();
         String query = request.getParameter("query");
-        List<Curso> cursos;
+        List<Aula> aulas;
         if (query != null && !query.trim().isEmpty()) {
-            cursos = cursoDAO.buscarCursos(query);
+            aulas = aulaDAO.buscarAulas(query);
         } else {
-            cursos = cursoDAO.listarCursos();
+            aulas = aulaDAO.listarAulas();
         }
 
-        if (cursos.isEmpty()) {
+        if (aulas.isEmpty()) {
             out.println("<p>No hay cursos disponibles actualmente.</p>");
         }else {
             // Construir tabla HTML con los cursos
             out.println("<table border='1' id='tablaCursos'>");
-            out.println("<tr><th>ID del Curso</th><th>Nombre del Curso</th><th>Acciones</th></tr>");
-            for (Curso curso : cursos) {
+            out.println("<tr><th>ID del Aula</th><th>Nombre del Aula</th><th>Acciones</th></tr>");
+            for (Aula aula : aulas) {
                 out.println("<tr>");
-                out.println("<td>" + curso.getIdCurso() + "</td>");
-                out.println("<td>" + curso.getNombre() + "</td>");
+                out.println("<td>" + aula.getIdAula() + "</td>");
+                out.println("<td>" + aula.getCodigo() + "</td>");
                 out.println("<td>");
-                out.println("<button class='btn' onclick=\"mostrarModal('" + curso.getIdCurso() + "', '" + curso.getNombre() + "')\">Editar</button>");
-                out.println("<a href='/eliminarCurso?id=" + curso.getIdCurso() + "' class='btn' onclick='return confirm(\"¿Estás seguro de eliminar este curso?\")'>Eliminar</a>");
+                out.println("<button class='btn' onclick=\"mostrarModal('" + aula.getIdAula() + "', '" + aula.getCodigo() + "')\">Editar</button>");
+                out.println("<a href='/eliminarAula?id=" + aula.getIdAula() + "' class='btn' onclick='return confirm(\"¿Estás seguro de eliminar este curso?\")'>Eliminar</a>");
                 out.println("</td>");
                 out.println("</tr>");
             }
@@ -150,16 +149,16 @@ public class ListarCursosServlet extends HttpServlet {
         }
 
         // Botón para registrar nuevo curso
-        out.println("<button class='btn' onclick='document.getElementById(\"modalRegistrar\").style.display=\"block\"'>Registrar nuevo curso</button>");
+        out.println("<button class='btn' onclick='document.getElementById(\"modalRegistrar\").style.display=\"block\"'>Registrar nuevo aula</button>");
 
         // Ventana modal para registrar nuevo curso
         out.println("<div id='modalRegistrar' class='modal'>");
         out.println("<div class='modal-content'>");
         out.println("<span class='close' onclick='cerrarModal()'>&times;</span>");
-        out.println("<h2 style='text-align: center;'>Registrar nuevo curso</h2>");
-        out.println("<form action='/registrarCurso' method='post'>");
-        out.println("<label class='form-label' for='nombreCurso'>Nombre del curso:</label><br>");
-        out.println("<input type='text' id='nombreCurso' name='name' class='form-input'><br><br>");
+        out.println("<h2 style='text-align: center;'>Registrar nuevo aula</h2>");
+        out.println("<form action='/registrarAula' method='post'>");
+        out.println("<label class='form-label' for='nombreCurso'>Codigo del aula:</label><br>");
+        out.println("<input type='text' id='nombreCurso' name='code' class='form-input'><br><br>");
         out.println("<input type='submit' value='Registrar' class='btn'>");
         out.println("</form>");
         out.println("</div>");
@@ -169,11 +168,11 @@ public class ListarCursosServlet extends HttpServlet {
         out.println("<div id='modalEditar' class='modal'>");
         out.println("<div class='modal-content'>");
         out.println("<span class='close' onclick='cerrarModal()'>&times;</span>");
-        out.println("<h2 style='text-align: center;'>Editar curso</h2>");
-        out.println("<form action='/editarCurso' method='post'>");
+        out.println("<h2 style='text-align: center;'>Editar aula</h2>");
+        out.println("<form action='/editarAula' method='post'>");
         out.println("<input type='hidden' id='editIdCurso' name='id'>");
-        out.println("<label class='form-label' for='editNombreCurso'>Nombre del curso:</label><br>");
-        out.println("<input type='text' id='editNombreCurso' name='name' class='form-input'><br><br>");
+        out.println("<label class='form-label' for='editNombreCurso'>Codigo del aula:</label><br>");
+        out.println("<input type='text' id='editNombreCurso' name='code' class='form-input'><br><br>");
         out.println("<input type='submit' value='Actualizar' class='btn'>");
         out.println("</form>");
         out.println("</div>");

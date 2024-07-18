@@ -4,11 +4,11 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
 
 @WebFilter("/*")  // Este filtro se aplica a todas las URL
 public class SessionFilter implements Filter {
+
     public void init(FilterConfig filterConfig) throws ServletException {
         // Puedes realizar inicializaciones aquí si es necesario
     }
@@ -34,4 +34,3 @@ public class SessionFilter implements Filter {
         // Realizar limpieza de recursos si es necesario
     }
 }
-
