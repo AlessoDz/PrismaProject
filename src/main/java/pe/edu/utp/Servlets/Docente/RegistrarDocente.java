@@ -38,8 +38,8 @@ public class RegistrarDocente extends HttpServlet {
             return;
         }
 
-        if (profile.length() != 9 || !profile.startsWith("U")) {
-            out.println("El perfil debe tener 9 dígitos y comenzar con 'U'.");
+        if (profile.length() != 9 || !profile.startsWith("D")) {
+            out.println("El perfil debe tener 9 dígitos y comenzar con 'D'.");
             return;
         }
 
