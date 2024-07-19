@@ -197,7 +197,7 @@ public class ListarDocente extends HttpServlet {
         out.println("<input type='text' name='id_teacher' class='form-input'><br>");
         out.println("<label class='form-label'>Contraseña:</label><br>");
         out.println("<input type='password' name='password' class='form-input'><br>");
-        out.println("<label class='form-label'>Perfil:</label><br>");
+        out.println("<label class='form-label'>Código:</label><br>");
         out.println("<input type='text' name='profile' class='form-input'><br>");
         out.println("<label for='speciality' class='form-label'>Especialidad</label>");
         out.println("<input type='text' id='speciality' name='speciality_name' class='form-input' required>");

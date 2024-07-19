@@ -8,7 +8,7 @@ public class Usuario {
     private String dni;
     private String email;
     private String telefono;
-    private String tipo; // Tipo de usuario: POSTULANTE, ESTUDIANTE, etc.
+    private String tipo; // Tipo de usuario: POSTULANTE, ESTUDIANTE, ADMINISTRADOR, DOCENTE(Cambiar por Enum dijo el profe)
     private boolean activo;
 
     public Usuario(int id, String nombre, String apellido, String fechaNacimiento, String dni,
