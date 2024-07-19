@@ -19,6 +19,7 @@ public class ListarClases extends HttpServlet {
 
     private ClaseDAOImp claseDAO = new ClaseDAOImp();
 
+    //Para hacer comit
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
