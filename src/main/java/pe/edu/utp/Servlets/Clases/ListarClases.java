@@ -182,6 +182,20 @@ tr:hover {
     font-size: 16px;
 }
 
+.btn {
+background-color: #4CAF50;
+color: white;
+padding: 10px 20px;
+border: none;
+cursor: pointer;
+border-radius: 5px;
+margin-right: 5px;
+}
+
+.btn:hover {
+        background-color: #45a049
+}
+        
 .modal-content button:hover {
     background-color: #45a049;
 }
@@ -227,6 +241,7 @@ tr:hover {
         out.println("                <th>Aula</th>");
         out.println("                <th>Curso</th>");
         out.println("                <th>Docente</th>");
+        out.println("                <th>Acciones</th>");
         out.println("            </tr>");
         out.println("        </thead>");
         out.println("        <tbody>");
@@ -238,6 +253,10 @@ tr:hover {
             out.println("                <td>" + getAulaById(aulas, clase.getIdClassroom()) + "</td>");
             out.println("                <td>" + getCursoById(cursos, clase.getIdCourse()) + "</td>");
             out.println("                <td>" + getDocenteById(docentes, clase.getIdTeacher()) + "</td>");
+            out.println("<td>");
+            out.println("<button class='btn' onclick=\"mostrarModal('" + clase.getIdClase() + "', '" + clase.getDay() + "')\">Editar</button>");
+            out.println("<a href='/eliminarCurso?id=" + clase.getIdClase() + "' class='btn' onclick='return confirm(\"¿Estás seguro de eliminar este curso?\")'>Eliminar</a>");
+            out.println("</td>");
             out.println("            </tr>");
         }
         out.println("        </tbody>");

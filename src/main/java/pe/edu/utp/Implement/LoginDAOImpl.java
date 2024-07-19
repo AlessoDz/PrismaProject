@@ -32,7 +32,6 @@ public class LoginDAOImpl implements LoginDAO {
         return tipoUsuario;
     }
 
-    //Cambiar para entrar como diferentes usuarios
     @Override
     public String obtenerIdUsuario(String profile, String password) {
         Connection connection = null;
