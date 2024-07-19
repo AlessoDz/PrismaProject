@@ -509,6 +509,31 @@ BEGIN
 END;;
 DELIMITER ;
 
+DELIMITER ;;
+CREATE PROCEDURE obtenerIdUsuario(IN p_profile VARCHAR(255), IN p_password VARCHAR(255), OUT p_id_user VARCHAR(255))
+BEGIN
+    -- Buscar en la tabla de administradores
+    SELECT id_user INTO p_id_user
+    FROM admin
+    WHERE profile = p_profile AND password = p_password;
+
+    IF p_id_user IS NULL THEN
+        -- Buscar en la tabla de docentes
+        SELECT id_user INTO p_id_user
+        FROM teacher
+        WHERE profile = p_profile AND password = p_password;
+    END IF;
+
+    IF p_id_user IS NULL THEN
+        -- Buscar en la tabla de estudiantes
+        SELECT id_user INTO p_id_user
+        FROM student
+        WHERE profile = p_profile AND password = p_password;
+    END IF;
+END;;
+
+DELIMITER ;
+
 insert into user (active, birth_date,dni,email,last_name,name,phone,type) values
     (1,'2001-04-09','74713885','kikecabanillas0003@gmail.com','Cabanillas Rojas','Victor Enrique','968099508','Administrador');
 insert into admin (id_admin,password,profile,id_user) values (1,'123456','U21218723',1);

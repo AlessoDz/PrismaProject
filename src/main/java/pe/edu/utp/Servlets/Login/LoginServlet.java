@@ -16,17 +16,21 @@ public class LoginServlet extends HttpServlet {
             throws IOException {
         PrintWriter out = response.getWriter();
 
+        // Obtener los parámetros de perfil (profile) y contraseña (password) desde el formulario
         String profile = request.getParameter("profile");
         String password = request.getParameter("password");
 
+        // Validaciones de campos
         if (profile == null || password == null || profile.isEmpty() || password.isEmpty()) {
             out.println("El perfil y la contraseña son obligatorios.");
             return;
         }
 
+        // Inicializar el DAO para autenticación
         LoginDAO loginDAO = new LoginDAOImpl();
         String tipoUsuario = loginDAO.obtenerTipoUsuario(profile, password);
 
+        // Redirigir según el tipo de usuario
         if (tipoUsuario != null) {
             switch (tipoUsuario) {
                 case "Administrador":

@@ -36,7 +36,7 @@ public class CursoDAOImp implements CursoDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 Curso curso = new Curso();
-                curso.setIdCurso(resultSet.getInt("id_course"));
+                curso.setIdCurso(resultSet.getString("id_course"));
                 curso.setNombre(resultSet.getString("name"));
                 cursos.add(curso);
             }
@@ -55,7 +55,7 @@ public class CursoDAOImp implements CursoDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Curso curso = new Curso();
-                    curso.setIdCurso(resultSet.getInt("id_course"));
+                    curso.setIdCurso(resultSet.getString("id_course"));
                     curso.setNombre(resultSet.getString("name"));
                     cursos.add(curso);
                 }
@@ -72,7 +72,7 @@ public class CursoDAOImp implements CursoDAO {
         try (Connection conexion = ConexionBD.obtenerConexion();
              PreparedStatement preparedStatement = conexion.prepareStatement(ACTUALIZAR_CURSO_SQL)) {
             preparedStatement.setString(1, curso.getNombre());
-            preparedStatement.setInt(2, curso.getIdCurso());
+            preparedStatement.setString(2, curso.getIdCurso());
             int filasActualizadas = preparedStatement.executeUpdate();
             actualizado = filasActualizadas > 0;
         } catch (SQLException ex) {
@@ -82,11 +82,11 @@ public class CursoDAOImp implements CursoDAO {
     }
 
     @Override
-    public boolean eliminarCurso(int idCurso) {
+    public boolean eliminarCurso(String idCurso) {
         boolean eliminado = false;
         try (Connection conexion = ConexionBD.obtenerConexion();
              PreparedStatement preparedStatement = conexion.prepareStatement(ELIMINAR_CURSO_SQL)) {
-            preparedStatement.setInt(1, idCurso);
+            preparedStatement.setString(1, idCurso);
             int filasEliminadas = preparedStatement.executeUpdate();
             eliminado = filasEliminadas > 0;
         } catch (SQLException ex) {

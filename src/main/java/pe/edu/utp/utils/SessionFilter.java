@@ -4,11 +4,11 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
 
 @WebFilter("/*")
 public class SessionFilter implements Filter {
+
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
@@ -30,4 +30,3 @@ public class SessionFilter implements Filter {
     public void destroy() {
     }
 }
-

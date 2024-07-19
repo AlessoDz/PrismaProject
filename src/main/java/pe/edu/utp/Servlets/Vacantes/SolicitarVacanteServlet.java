@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import pe.edu.utp.Implement.UsuarioDAOImpl;
 import pe.edu.utp.model.Usuario;
 import pe.edu.utp.repository.UsuarioDAO;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -26,26 +25,22 @@ public class SolicitarVacanteServlet extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
 
-        // Validaciones de campos
         if (name == null || lastName == null || birthDate == null || dni == null || email == null || phone == null ||
                 name.isEmpty() || lastName.isEmpty() || birthDate.isEmpty() || dni.isEmpty() || email.isEmpty() || phone.isEmpty()) {
             out.println("Todos los campos son obligatorios.");
             return;
         }
 
-        // Validación de longitud del DNI (8 dígitos)
         if (dni.length() != 8) {
             out.println("El DNI debe tener exactamente 8 dígitos.");
             return;
         }
 
-        // Validación de longitud del teléfono (9 dígitos)
         if (phone.length() != 9) {
             out.println("El teléfono debe tener exactamente 9 dígitos.");
             return;
         }
 
-        // Validación de formato de correo electrónico (Gmail)
         if (!email.toLowerCase().endsWith("@gmail.com")) {
             out.println("El correo electrónico debe ser de Gmail (terminar en @gmail.com).");
             return;

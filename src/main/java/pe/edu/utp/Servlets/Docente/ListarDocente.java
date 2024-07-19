@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import pe.edu.utp.Implement.DocenteDAOImpl;
 import pe.edu.utp.model.Docente;
 import pe.edu.utp.repository.DocenteDAO;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
