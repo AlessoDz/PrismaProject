@@ -13,8 +13,9 @@ import java.io.IOException;
 @WebServlet("/editarCurso")
 public class EditarCursoServlet extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idCurso = Integer.parseInt(request.getParameter("id"));
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        String idCurso = request.getParameter("id");
         String nombreCurso = request.getParameter("name");
 
         Curso curso = new Curso();

@@ -14,5 +14,5 @@ public interface CursoDAO {
 
     boolean actualizarCurso(Curso curso);
 
-    boolean eliminarCurso(int idCurso);
+    boolean eliminarCurso(String idCurso);
 }

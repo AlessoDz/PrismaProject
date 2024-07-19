@@ -134,7 +134,7 @@ public class ListarAulaServlet extends HttpServlet {
         }else {
             // Construir tabla HTML con los cursos
             out.println("<table border='1' id='tablaCursos'>");
-            out.println("<tr><th>ID del Aula</th><th>Nombre del Aula</th><th>Acciones</th></tr>");
+            out.println("<tr><th>ID del Aula</th><th>Codigo del Aula</th><th>Acciones</th></tr>");
             for (Aula aula : aulas) {
                 out.println("<tr>");
                 out.println("<td>" + aula.getIdAula() + "</td>");

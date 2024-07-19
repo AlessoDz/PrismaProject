@@ -12,8 +12,9 @@ import java.io.IOException;
 @WebServlet("/eliminarCurso")
 public class EliminarCurso extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idCurso = Integer.parseInt(request.getParameter("id"));
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String idCurso = request.getParameter("id");
 
         CursoDAO cursoDAO = new CursoDAOImp();
         boolean eliminado = cursoDAO.eliminarCurso(idCurso);

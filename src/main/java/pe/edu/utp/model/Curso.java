@@ -1,10 +1,10 @@
 package pe.edu.utp.model;
 
 public class Curso {
-    private int idCurso;
+    private String idCurso;
     private String nombre;
 
-    public Curso(int idCurso, String nombre) {
+    public Curso(String idCurso, String nombre) {
         this.idCurso = idCurso;
         this.nombre = nombre;
     }
@@ -12,11 +12,11 @@ public class Curso {
     public Curso() {
     }
 
-    public int getIdCurso() {
+    public String getIdCurso() {
         return idCurso;
     }
 
-    public void setIdCurso(int idCurso) {
+    public void setIdCurso(String idCurso) {
         this.idCurso = idCurso;
     }
 
