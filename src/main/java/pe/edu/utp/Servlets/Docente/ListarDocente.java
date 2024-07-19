@@ -224,7 +224,7 @@ public class ListarDocente extends HttpServlet {
         out.println("<h2>Editar Docente</h2>");
         out.println("<form action='/actualizarDocente' method='post'>");
         out.println("<input type='hidden' id='editIdDocente' name='id_teacher'>");
-        out.println("<label class='form-label'>Perfil:</label><br>");
+        out.println("<label class='form-label'>Código:</label><br>");
         out.println("<input type='text' id='editProfile' name='profile' class='form-input'><br>");
         out.println("<label class='form-label'>Contraseña:</label><br>");
         out.println("<input type='password' id='editPassword' name='password' class='form-input'><br>");
@@ -254,7 +254,7 @@ public class ListarDocente extends HttpServlet {
         out.println("<span class='close' onclick='cerrarModal()'>&times;</span>");
         out.println("<h2>Detalles del Docente</h2>");
         out.println("<p><strong>ID del Docente:</strong> <span id='detailIdDocente'></span></p>");
-        out.println("<p><strong>Perfil:</strong> <span id='detailProfile'></span></p>");
+        out.println("<p><strong>Código:</strong> <span id='detailProfile'></span></p>");
         out.println("<p><strong>Contraseña:</strong> <span id='detailPassword'></span></p>");
         out.println("<p><strong>Especialidad:</strong> <span id='detailSpeciality'></span></p>");
         out.println("<p><strong>Nombre:</strong> <span id='detailNombre'></span></p>");

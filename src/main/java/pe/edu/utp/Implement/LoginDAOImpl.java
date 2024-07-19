@@ -31,10 +31,14 @@ public class LoginDAOImpl implements LoginDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Cerrar conexiones y liberar recursos
-            // (código omitido por brevedad)
+
         }
 
         return tipoUsuario;
+    }
+
+    @Override
+    public String obtenerIdUsuario(String profile, String password) {
+        return "";
     }
 }
