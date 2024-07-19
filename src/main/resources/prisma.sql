@@ -534,6 +534,55 @@ END;;
 
 DELIMITER ;
 
+DELIMITER ;;
+CREATE PROCEDURE `registrarClase`(
+    IN p_day VARCHAR(255),
+    IN p_end_time TIME,
+    IN p_start_time TIME,
+    IN p_id_classroom BIGINT,
+    IN p_id_course BIGINT,
+    IN p_id_teacher VARCHAR(10)
+)
+BEGIN
+    DECLARE classroom_exists INT;
+    DECLARE course_exists INT;
+    DECLARE teacher_exists INT;
+
+    -- Verificar si el id_classroom existe en la tabla classroom
+    SELECT COUNT(*) INTO classroom_exists
+    FROM `classroom`
+    WHERE `id_classroom` = p_id_classroom;
+
+    IF classroom_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_classroom no existe en la tabla classroom';
+    END IF;
+
+    SELECT COUNT(*) INTO course_exists
+    FROM `course`
+    WHERE `id_course` = p_id_course;
+
+    IF course_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_course no existe en la tabla course';
+    END IF;
+
+    SELECT COUNT(*) INTO teacher_exists
+    FROM `teacher`
+    WHERE `id_teacher` = p_id_teacher;
+
+    IF teacher_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_teacher no existe en la tabla teacher';
+    END IF;
+
+    INSERT INTO `class` (`day`, `end_time`, `start_time`, `id_classroom`, `id_course`, `id_teacher`)
+    VALUES (p_day, p_end_time, p_start_time, p_id_classroom, p_id_course, p_id_teacher);
+END ;;
+
+DELIMITER ;
+
+
 insert into user (active, birth_date,dni,email,last_name,name,phone,type) values
     (1,'2001-04-09','74713885','kikecabanillas0003@gmail.com','Cabanillas Rojas','Victor Enrique','968099508','Administrador');
 insert into admin (id_admin,password,profile,id_user) values (1,'123456','U21218723',1);
