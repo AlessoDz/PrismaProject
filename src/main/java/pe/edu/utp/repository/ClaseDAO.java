@@ -12,4 +12,7 @@ public interface ClaseDAO {
     List<Curso> obtenerCursos();
     List<Docente> obtenerDocentes();
     List<Clase> obtenerClases();
+    List<Aula> buscarAulas(String query);
+    boolean actualizarAula(Aula aula);
+    boolean eliminarAula(String idAula);
 }

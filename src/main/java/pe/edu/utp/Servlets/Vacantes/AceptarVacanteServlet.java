@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pe.edu.utp.Implement.UsuarioDAOImpl;
 import pe.edu.utp.repository.UsuarioDAO;
-
 import java.io.IOException;
 
 @WebServlet("/aceptarVacante")

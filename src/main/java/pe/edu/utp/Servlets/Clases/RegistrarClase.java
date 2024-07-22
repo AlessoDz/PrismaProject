@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @WebServlet("/registrarClase")
 public class RegistrarClase extends HttpServlet {
-// registrro
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {

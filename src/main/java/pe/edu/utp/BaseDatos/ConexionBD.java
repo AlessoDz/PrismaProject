@@ -7,15 +7,13 @@ import java.sql.SQLException;
 public class ConexionBD {
     private static final String URL = "jdbc:mysql://localhost:3306/prisma?useSSL=false&serverTimezone=UTC";
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "alesso31";
+    private static final String CONTRASENA = "123456";
 
     public static Connection obtenerConexion() {
         Connection conexion = null;
         try {
-            // Cargar el driver JDBC de MySQL
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Obtener conexión a la base de datos
             conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("Error en la conexión a la base de datos: " + ex.getMessage());

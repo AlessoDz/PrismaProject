@@ -122,5 +122,20 @@ public class ClaseDAOImp implements ClaseDAO {
         return clases;
     }
 
+    @Override
+    public List<Aula> buscarAulas(String query) {
+        return List.of();
+    }
+
+    @Override
+    public boolean actualizarAula(Aula aula) {
+        return false;
+    }
+
+    @Override
+    public boolean eliminarAula(String idAula) {
+        return false;
+    }
+
 
 }
