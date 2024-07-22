@@ -13,7 +13,7 @@ Este proyecto es una solución integral para la gestión educativa de la institu
 # Tecnologías Utilizadas
 
 - Lenguaje de Programación: Java
-- Framework: Servlets (para el desarrollo del frontend y backend en un solo entorno)
+- Servlets (para el desarrollo del frontend y backend en un solo entorno)
 - Base de Datos: MySQL
 - Editor de Código Recomendado: [Eclipse](https://www.eclipse.org/), [IntelliJ IDEA](https://www.jetbrains.com/idea/), o cualquier editor compatible con Java.
 
@@ -29,8 +29,8 @@ Este proyecto es una solución integral para la gestión educativa de la institu
    - Configura [MySQL](https://dev.mysql.com/downloads/) y crea una base de datos para el proyecto.
 
 3. Configura la base de datos:
-   - Importa el archivo de esquema SQL (generalmente `schema.sql`) que se encuentra en el repositorio para crear las tablas necesarias.
-   - Actualiza las configuraciones de conexión a la base de datos en el archivo `web.xml` o en el archivo de configuración correspondiente.
+   - Importa el archivo de esquema SQL (`prisma.sql`) que se encuentra en el repositorio para crear las tablas necesarias.
+   - Actualiza las configuraciones de conexión a la base de datos en el archivo `src\main\java\pe\edu\utp\BaseDatos\ConexionBD.java`.
 
 4. Compila y despliega la aplicación:
    - Importa el proyecto en un editor compatible con Java como [Eclipse](https://www.eclipse.org/) o [IntelliJ IDEA](https://www.jetbrains.com/idea/).
@@ -42,7 +42,7 @@ Este proyecto es una solución integral para la gestión educativa de la institu
 
 # Uso
 
-1. Accede a la aplicación a través del navegador en `http://localhost:8080/NombreDelProyecto` (o la URL especificada en la configuración del servidor).
+1. Accede a la aplicación a través del navegador en `http://localhost:8080`.
 2. Utiliza las diferentes secciones para gestionar matrículas, controlar notas y seguir horarios.
 3. Consulta la documentación interna de la aplicación para guías detalladas sobre cada funcionalidad.
 
@@ -73,6 +73,6 @@ Para consultas o sugerencias, puedes contactar a los desarrolladores a través d
 
 ---
 
-¡Gracias por tu interés en nuestro proyecto! Esperamos que esta herramienta sea de gran utilidad para la gestión educativa en la institución Prisma.
+¡Gracias por tu interés en nuestro proyecto! Esperamos que esta herramienta sea de gran utilidad para la gestión educativa.
 
 ```
