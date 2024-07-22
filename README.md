@@ -73,6 +73,6 @@ Para consultas o sugerencias, puedes contactar a los desarrolladores a través d
 
 ---
 
-¡Gracias por tu interés en nuestro proyecto! Esperamos que esta herramienta sea de gran utilidad para la gestión educativa en la institución Prisma.
+¡Gracias por tu interés en nuestro proyecto! Esperamos que esta herramienta sea de gran utilidad para la gestión educativa.
 
 ```
