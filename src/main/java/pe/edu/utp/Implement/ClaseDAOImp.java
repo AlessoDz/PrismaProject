@@ -20,6 +20,9 @@ public class ClaseDAOImp implements ClaseDAO {
     private static final String OBTENER_CURSOS_SQL = "SELECT id_course, name FROM course";
     private static final String OBTENER_DOCENTES_SQL = "SELECT id_teacher, profile FROM teacher";
     private static final String REGISTRAR_CLASE_SQL = "{CALL registrarClase(?, ?, ?, ?, ?, ?)}";
+    private static final String BUSCAR_AULAS_SQL = "SELECT * FROM classroom WHERE code LIKE ?";
+    private static final String ACTUALIZAR_AULA_SQL = "UPDATE classroom SET code = ? WHERE id_classroom = ?";
+    private static final String ELIMINAR_AULA_SQL = "DELETE FROM classroom WHERE id_classroom = ?";
 
     @Override
     public void registrarClase(Clase clase) {
