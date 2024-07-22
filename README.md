@@ -13,7 +13,7 @@ Este proyecto es una solución integral para la gestión educativa de la institu
 # Tecnologías Utilizadas
 
 - Lenguaje de Programación: Java
-- Framework: Servlets (para el desarrollo del frontend y backend en un solo entorno)
+- Servlets (para el desarrollo del frontend y backend en un solo entorno)
 - Base de Datos: MySQL
 - Editor de Código Recomendado: [Eclipse](https://www.eclipse.org/), [IntelliJ IDEA](https://www.jetbrains.com/idea/), o cualquier editor compatible con Java.
 
