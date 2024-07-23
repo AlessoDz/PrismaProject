@@ -256,7 +256,7 @@ margin-right: 5px;
             out.println("                <td>" + getDocenteById(docentes, clase.getIdTeacher()) + "</td>");
             out.println("<td>");
             out.println("<button class='btn' onclick=\"mostrarModal('" + clase.getIdClase() + "', '" + clase.getDay() + "')\">Editar</button>");
-            out.println("<a href='/eliminarCurso?id=" + clase.getIdClase() + "' class='btn' onclick='return confirm(\"¿Estás seguro de eliminar este curso?\")'>Eliminar</a>");
+            out.println("<a href='/eliminarClase?id=" + clase.getIdClase() + "' class='btn' onclick='return confirm(\"¿Estás seguro de eliminar esta clase?\")'>Eliminar</a>");
             out.println("</td>");
             out.println("            </tr>");
         }

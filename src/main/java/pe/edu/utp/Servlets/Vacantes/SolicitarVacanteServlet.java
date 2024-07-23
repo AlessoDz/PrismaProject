@@ -57,12 +57,8 @@ public class SolicitarVacanteServlet extends HttpServlet {
         user.setActivo(true);
 
         UsuarioDAO userDAO = new UsuarioDAOImpl();
-        boolean success = userDAO.insertarUsuario(user);
+        userDAO.insertarUsuario(user);
 
-        if (success) {
-            out.println("Solicitud de vacante enviada correctamente.");
-        } else {
-            out.println("Error al enviar la solicitud de vacante.");
-        }
+        response.sendRedirect(request.getContextPath() + "/solicitarVacante");
     }
 }

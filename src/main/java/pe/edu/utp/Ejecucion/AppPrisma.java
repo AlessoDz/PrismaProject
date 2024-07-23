@@ -5,6 +5,7 @@ import pe.edu.utp.Servlets.Aulas.EliminarAula;
 import pe.edu.utp.Servlets.Aulas.ListarAulaServlet;
 import pe.edu.utp.Servlets.Aulas.registrarAula;
 import pe.edu.utp.Servlets.Clases.EditarClase;
+import pe.edu.utp.Servlets.Clases.EliminarClase;
 import pe.edu.utp.Servlets.Clases.ListarClases;
 import pe.edu.utp.Servlets.Clases.RegistrarClase;
 import pe.edu.utp.Servlets.Cursos.EditarCursoServlet;
@@ -45,6 +46,8 @@ public class AppPrisma {
         webserver.addServlet(EliminarAula.class,"/eliminarAula");
         webserver.addServlet(ListarClases.class,"/listarClases");
         webserver.addServlet(RegistrarClase.class,"/registrarClase");
+        webserver.addServlet(EliminarClase.class,"/eliminarClase");
+
 
         URL myURL = new URL("http://localhost:8080");
         System.out.println("*********************************************************");

@@ -20,9 +20,10 @@ public class ClaseDAOImp implements ClaseDAO {
     private static final String OBTENER_CURSOS_SQL = "SELECT id_course, name FROM course";
     private static final String OBTENER_DOCENTES_SQL = "SELECT id_teacher, profile FROM teacher";
     private static final String REGISTRAR_CLASE_SQL = "{CALL registrarClase(?, ?, ?, ?, ?, ?)}";
-    private static final String BUSCAR_AULAS_SQL = "SELECT * FROM classroom WHERE code LIKE ?";
-    private static final String ACTUALIZAR_AULA_SQL = "UPDATE classroom SET code = ? WHERE id_classroom = ?";
-    private static final String ELIMINAR_AULA_SQL = "DELETE FROM classroom WHERE id_classroom = ?";
+    private static final String BUSCAR_CLASES_SQL = "SELECT * FROM classroom WHERE code LIKE ?";
+    private static final String ACTUALIZAR_CLASES_SQL = "UPDATE classroom SET code = ? WHERE id_classroom = ?";
+    private static final String ELIMINAR_CLASES_SQL = "DELETE FROM class WHERE id_class = ?";
+    private static final String VERIFICAR_CRUCE_HORARIO_SQL = "SELECT COUNT(*) FROM class WHERE id_teacher = ? AND day = ? AND (start_time < ? AND end_time > ?)";
 
     @Override
     public void registrarClase(Clase clase) {
@@ -126,19 +127,47 @@ public class ClaseDAOImp implements ClaseDAO {
     }
 
     @Override
-    public List<Aula> buscarAulas(String query) {
+    public List<Aula> buscarClase(String query) {
         return List.of();
     }
 
     @Override
-    public boolean actualizarAula(Aula aula) {
+    public boolean actualizarClase(Clase clase) {
         return false;
     }
 
     @Override
-    public boolean eliminarAula(String idAula) {
-        return false;
+    public boolean eliminarClase(String idClase) {
+        boolean eliminado = false;
+        try (Connection conexion = ConexionBD.obtenerConexion();
+             PreparedStatement preparedStatement = conexion.prepareStatement(ELIMINAR_CLASES_SQL)) {
+            preparedStatement.setString(1, idClase);
+            int filasEliminadas = preparedStatement.executeUpdate();
+            eliminado = filasEliminadas > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error al eliminar el aula: " + ex.getMessage());
+        }
+        return eliminado;
     }
 
+    @Override
+    public boolean verificarCruceHorario(String day, String startTime, String endTime, String idTeacher) {
+        boolean cruce = false;
+        try (Connection conexion = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conexion.prepareStatement(VERIFICAR_CRUCE_HORARIO_SQL)) {
 
+            stmt.setString(1, idTeacher);
+            stmt.setString(2, day);
+            stmt.setString(3, endTime);
+            stmt.setString(4, startTime);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                cruce = rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al verificar cruce de horarios: " + ex.getMessage());
+        }
+        return cruce;
+    }
 }
