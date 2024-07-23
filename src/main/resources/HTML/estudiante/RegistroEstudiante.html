@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Estudiante</title>
+</head>
+<body>
+<h1>Formulario de Estudiante</h1>
+<form action="/submit" method="post">
+  <label for="id_student">ID del Estudiante:</label>
+  <input type="text" id="id_student" name="id_student" required><br><br>
+
+  <label for="entrydate">Fecha de Ingreso:</label>
+  <input type="date" id="entrydate" name="entrydate" required><br><br>
+
+  <label for="grade">Grado:</label>
+  <input type="number" id="grade" name="grade" min="1" required><br><br>
+
+  <label for="password">Contraseña:</label>
+  <input type="password" id="password" name="password" required><br><br>
+
+  <label for="payment_status">Estado de Pago:</label>
+  <select id="payment_status" name="payment_status" required>
+    <option value="true">Pagado</option>
+    <option value="false">No Pagado</option>
+  </select><br><br>
+
+  <label for="profile">Perfil:</label>
+  <input type="text" id="profile" name="profile" required><br><br>
+
+  <label for="section">Sección:</label>
+  <input type="text" id="section" name="section" required><br><br>
+
+  <label for="shift">Turno:</label>
+  <input type="text" id="shift" name="shift" required><br><br>
+
+  <label for="study_level">Nivel de Estudio:</label>
+  <input type="text" id="study_level" name="study_level" required><br><br>
+
+  <input type="submit" value="Enviar">
+</form>
+</body>
+</html>
