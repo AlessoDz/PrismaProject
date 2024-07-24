@@ -176,6 +176,7 @@ public class ListarDocente extends HttpServlet {
                 out.println("<td>" + docente.getTelefono() + "</td>");
                 out.println("<td>");
                 out.println("<button class='btn' onclick=\"mostrarModal('" + docente.getIdDocente() + "', '" + docente.getProfile() + "', '" + docente.getPassword() + "', '" + docente.getSpeciality() + "', '" + docente.getNombre() + "', '" + docente.getApellido() + "', '" + docente.getFechaNacimiento() + "', '" + docente.getDni() + "', '" + docente.getEmail() + "', '" + docente.getTelefono() + "', '" + docente.getFechaRegistro() + "')\">Editar</button>");
+                out.println("<a href='Docente/horariosDocente.html?id_teacher=" + docente.getIdDocente() + "class='btn'>Ver Horario</a>");
                 out.println("<button class='btn' onclick=\"mostrarModalDetalles('" + docente.getIdDocente() + "', '" + docente.getProfile() + "', '" + docente.getPassword() + "', '" + docente.getSpeciality() + "', '" + docente.getNombre() + "', '" + docente.getApellido() + "', '" + docente.getFechaNacimiento() + "', '" + docente.getDni() + "', '" + docente.getEmail() + "', '" + docente.getTelefono() + "', '" + docente.getFechaNacimiento() + "')\">Ver detalles</button>");
                 out.println("<a href='/eliminarDocente?id_teacher=" + docente.getIdDocente() + "' class='btn' onclick='return confirm(\"¿Estás seguro de eliminar este docente?\")'>Eliminar</a>");
                 out.println("</td>");

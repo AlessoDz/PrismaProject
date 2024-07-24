@@ -1,23 +1,23 @@
 package pe.edu.utp.Servlets.Clases;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pe.edu.utp.Implement.ClaseDAOImp;
+import pe.edu.utp.Implement.ClaseDAOImpl;
 import pe.edu.utp.model.Aula;
 import pe.edu.utp.model.Clase;
 import pe.edu.utp.model.Curso;
 import pe.edu.utp.model.Docente;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @WebServlet("/listarClases")
 public class ListarClases extends HttpServlet {
 
-    private ClaseDAOImp claseDAO = new ClaseDAOImp();
+    private ClaseDAOImpl claseDAO = new ClaseDAOImpl();
 
     //Para hacer comit
     @Override
@@ -28,6 +28,7 @@ public class ListarClases extends HttpServlet {
         List<Curso> cursos = claseDAO.obtenerCursos();
         List<Docente> docentes = claseDAO.obtenerDocentes();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -247,10 +248,13 @@ margin-right: 5px;
         out.println("        </thead>");
         out.println("        <tbody>");
         for (Clase clase : clases) {
+            String startTimeFormatted = sdf.format(clase.getStartTime());
+            String endTimeFormatted = sdf.format(clase.getEndTime());
+
             out.println("            <tr>");
             out.println("                <td>" + clase.getDay() + "</td>");
-            out.println("                <td>" + clase.getStartTime() + "</td>");
-            out.println("                <td>" + clase.getEndTime() + "</td>");
+            out.println("                <td>" + startTimeFormatted + "</td>");
+            out.println("                <td>" + endTimeFormatted + "</td>");
             out.println("                <td>" + getAulaById(aulas, clase.getIdClassroom()) + "</td>");
             out.println("                <td>" + getCursoById(cursos, clase.getIdCourse()) + "</td>");
             out.println("                <td>" + getDocenteById(docentes, clase.getIdTeacher()) + "</td>");
@@ -270,13 +274,14 @@ margin-right: 5px;
         out.println("            <h2>Registrar Clase</h2>");
         out.println("            <form id='registroClaseForm' action='/registrarClase' method='post'>");
         out.println("                <label for='day'>Día:</label>");
-        out.println("                <input type='text' id='day' name='day' required><br><br>");
+        out.println("                <input type='text' id='day' name='day' required placeholder='Ej: Lunes'><br><br>");
 
-        out.println("                <label for='start_time'>Hora Inicio:</label>");
-        out.println("                <input type='text' id='start_time' name='start_time' required><br><br>");
+        out.println("                <label for='start_time'>Hora Inicio (AM/PM):</label>");
+        out.println("                <input type='text' id='start_time' name='start_time' required placeholder='Ej: 9:00 AM'><br><br>");
 
-        out.println("                <label for='end_time'>Hora Fin:</label>");
-        out.println("                <input type='text' id='end_time' name='end_time' required><br><br>");
+        out.println("                <label for='end_time'>Hora Fin (AM/PM):</label>");
+        out.println("                <input type='text' id='end_time' name='end_time' required placeholder='Ej: 10:30 AM'><br><br>");
+
 
         out.println("                <label for='id_classroom'>Aula:</label>");
         out.println("                <select id='id_classroom' name='id_classroom' required>");
@@ -304,6 +309,7 @@ margin-right: 5px;
         out.println("        </div>");
         out.println("    </div>");
 
+
         out.println("    <script>");
         out.println("        var modal = document.getElementById('myModal');");
         out.println("        var btn = document.getElementById('openModalBtn');");
@@ -322,6 +328,7 @@ margin-right: 5px;
         out.println("                modal.style.display = 'none';");
         out.println("            }");
         out.println("        }");
+
         out.println("    </script>");
         out.println("</body>");
         out.println("</html>");

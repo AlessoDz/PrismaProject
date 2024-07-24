@@ -4,11 +4,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pe.edu.utp.Implement.ClaseDAOImp;
-import pe.edu.utp.repository.ClaseDAO;
+import pe.edu.utp.Implement.ClaseDAOImpl;
 import pe.edu.utp.model.Clase;
+import pe.edu.utp.repository.ClaseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 @WebServlet("/registrarClase")
 public class RegistrarClase extends HttpServlet {
@@ -20,41 +24,63 @@ public class RegistrarClase extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         String day = request.getParameter("day");
-        String startTime = request.getParameter("start_time");
-        String endTime = request.getParameter("end_time");
-        String idClassroom = request.getParameter("id_classroom");
-        String idCourse = request.getParameter("id_course");
+        String startTimeParam = request.getParameter("start_time");
+        String endTimeParam = request.getParameter("end_time");
+        String idClassroomParam = request.getParameter("id_classroom");
+        String idCourseParam = request.getParameter("id_course");
         String idTeacher = request.getParameter("id_teacher");
 
-        if (day == null || startTime == null || endTime == null || idClassroom == null || idCourse == null || idTeacher == null ||
-                day.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || idClassroom.isEmpty() || idCourse.isEmpty() || idTeacher.isEmpty()) {
-            out.println("Todos los campos son obligatorios.");
+        if (day == null || day.isEmpty() ||
+                startTimeParam == null || startTimeParam.isEmpty() ||
+                endTimeParam == null || endTimeParam.isEmpty() ||
+                idClassroomParam == null || idClassroomParam.isEmpty() ||
+                idCourseParam == null || idCourseParam.isEmpty() ||
+                idTeacher == null || idTeacher.isEmpty()) {
+
+            out.println("{\"status\":\"error\",\"message\":\"Todos los campos son requeridos.\"}");
             return;
         }
 
-        // Usar la interfaz para la referencia y la implementación concreta para la instancia
-        ClaseDAO claseDAO = new ClaseDAOImp();
+        // Convertir y validar los tipos de datos
+        Time startTime;
+        Time endTime;
 
-        // Verificar cruce de horarios
-        boolean cruceHorario = claseDAO.verificarCruceHorario(day, startTime, endTime, idTeacher);
-
-        if (cruceHorario) {
-            out.println("El horario ingresado se cruza con otro ya registrado para el mismo docente.");
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
+            java.util.Date startDate = sdf.parse(startTimeParam);
+            java.util.Date endDate = sdf.parse(endTimeParam);
+            startTime = new Time(startDate.getTime());
+            endTime = new Time(endDate.getTime());
+        } catch (ParseException e) {
+            out.println("{\"status\":\"error\",\"message\":\"Formato de hora inválido. Use 'h:mm a' (AM/PM).\"}");
             return;
         }
 
-        // Registrar nueva clase
+        // Validar que la hora de inicio sea antes de la hora de finalización
+        if (startTime.after(endTime)) {
+            out.println("{\"status\":\"error\",\"message\":\"La hora de inicio debe ser antes de la hora de finalización.\"}");
+            return;
+        }
+
+        // Crear objeto Clase
         Clase clase = new Clase();
         clase.setDay(day);
         clase.setStartTime(startTime);
         clase.setEndTime(endTime);
-        clase.setIdClassroom(idClassroom);
-        clase.setIdCourse(idCourse);
+        clase.setIdClassroom(idClassroomParam);
+        clase.setIdCourse(idCourseParam);
         clase.setIdTeacher(idTeacher);
 
-        claseDAO.registrarClase(clase);
+        // Registrar la clase
+        ClaseDAO claseDAO = new ClaseDAOImpl();
+        boolean registrada = claseDAO.registrarClase(clase);
 
-        // Redirigir a la página de listado de clases
-        response.sendRedirect(request.getContextPath() + "/listarClases");
+        if (registrada) {
+            // Mostrar mensaje de éxito
+            out.println("{\"status\":\"success\",\"message\":\"Clase registrada exitosamente.\"}");
+        } else {
+            // Mostrar mensaje de error
+            out.println("{\"status\":\"error\",\"message\":\"No se puede registrar la hora ya que hay cruce de horario\"}\n");
+        }
     }
 }

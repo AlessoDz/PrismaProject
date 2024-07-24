@@ -4,7 +4,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pe.edu.utp.Implement.ClaseDAOImp;
+import pe.edu.utp.Implement.ClaseDAOImpl;
 import pe.edu.utp.repository.ClaseDAO;
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ public class EliminarClase extends HttpServlet {
             throws IOException {
         String idClase = request.getParameter("id");
 
-        ClaseDAO aulaDAO = new ClaseDAOImp();
+        ClaseDAO aulaDAO = new ClaseDAOImpl();
         boolean eliminado = aulaDAO.eliminarClase(idClase);
 
         if (eliminado) {
