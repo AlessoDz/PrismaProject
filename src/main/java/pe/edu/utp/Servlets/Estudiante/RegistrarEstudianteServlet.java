@@ -1,4 +1,4 @@
-package pe.edu.utp.Servlets.Estudiante;
+package pe.edu.utp.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -6,8 +6,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pe.edu.utp.model.Estudiante;
+
+
 import java.io.IOException;
 import java.time.LocalDate;
+
 import static java.lang.System.out;
 
 @WebServlet("/registerStudent")

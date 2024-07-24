@@ -18,7 +18,6 @@ public class ListarVacantesServlet extends HttpServlet {
             throws IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
         out.println("<html><head><title>Listado de Vacantes</title>");
         out.println("<style>");
         out.println("body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 20px; }");
