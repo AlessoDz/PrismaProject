@@ -46,6 +46,6 @@ public class ActualizarEstudianteServlet extends HttpServlet {
             response.getWriter().println("<h2>Error al actualizar al estudiante</h2>");
         }
     }
-
+// sdfa
 }
 
