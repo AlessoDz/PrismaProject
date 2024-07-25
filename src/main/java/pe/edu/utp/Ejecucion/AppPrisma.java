@@ -1,10 +1,12 @@
 package pe.edu.utp.Ejecucion;
 
+import pe.edu.utp.Servlets.Administrador.eliminarAdministrador;
+import pe.edu.utp.Servlets.Administrador.listarAdministrador;
+import pe.edu.utp.Servlets.Administrador.registrarAdministrador;
 import pe.edu.utp.Servlets.Aulas.EditarAula;
 import pe.edu.utp.Servlets.Aulas.EliminarAula;
 import pe.edu.utp.Servlets.Aulas.ListarAulaServlet;
 import pe.edu.utp.Servlets.Aulas.registrarAula;
-import pe.edu.utp.Servlets.Clases.EditarClase;
 import pe.edu.utp.Servlets.Clases.ListarClases;
 import pe.edu.utp.Servlets.Clases.RegistrarClase;
 import pe.edu.utp.Servlets.Cursos.EditarCursoServlet;
@@ -53,10 +55,9 @@ public class AppPrisma {
         webserver.addServlet(ListarEstudianteServlet.class,"/listarEstudiante");
         webserver.addServlet(ActualizarEstudianteServlet.class,"/actualizarEstudiante");
         webserver.addServlet(EliminarEstudianteServlet.class,"/eliminarEstudiante");
-
-
-
-
+        webserver.addServlet(listarAdministrador.class,"/listarAdministrador");
+        webserver.addServlet(registrarAdministrador.class,"/registrarAdministrador");
+        webserver.addServlet(eliminarAdministrador.class,"/eliminarAdministrador");
 
         URL myURL = new URL("http://localhost:8080");
         System.out.println("*********************************************************");
