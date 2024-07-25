@@ -15,6 +15,10 @@ import pe.edu.utp.Servlets.Docente.ActualizarDocente;
 import pe.edu.utp.Servlets.Docente.EliminarDocente;
 import pe.edu.utp.Servlets.Docente.ListarDocente;
 import pe.edu.utp.Servlets.Docente.RegistrarDocente;
+import pe.edu.utp.Servlets.Estudiante.ActualizarEstudianteServlet;
+import pe.edu.utp.Servlets.Estudiante.EliminarEstudianteServlet;
+import pe.edu.utp.Servlets.Estudiante.ListarEstudianteServlet;
+import pe.edu.utp.Servlets.Estudiante.RegistrarEstudianteServlet;
 import pe.edu.utp.Servlets.Login.LoginServlet;
 import pe.edu.utp.Servlets.Vacantes.AceptarVacanteServlet;
 import pe.edu.utp.Servlets.Vacantes.ListarVacantesServlet;
@@ -45,6 +49,14 @@ public class AppPrisma {
         webserver.addServlet(EliminarAula.class,"/eliminarAula");
         webserver.addServlet(ListarClases.class,"/listarClases");
         webserver.addServlet(RegistrarClase.class,"/registrarClase");
+        webserver.addServlet(RegistrarEstudianteServlet.class,"/registrarEstudiante");
+        webserver.addServlet(ListarEstudianteServlet.class,"/listarEstudiante");
+        webserver.addServlet(ActualizarEstudianteServlet.class,"/actualizarEstudiante");
+        webserver.addServlet(EliminarEstudianteServlet.class,"/eliminarEstudiante");
+
+
+
+
 
         URL myURL = new URL("http://localhost:8080");
         System.out.println("*********************************************************");
