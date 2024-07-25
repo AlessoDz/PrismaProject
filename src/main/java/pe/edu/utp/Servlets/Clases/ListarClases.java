@@ -12,14 +12,16 @@ import pe.edu.utp.model.Docente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @WebServlet("/listarClases")
 public class ListarClases extends HttpServlet {
 
     private ClaseDAOImpl claseDAO = new ClaseDAOImpl();
 
-    //Para hacer comit
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -28,7 +30,9 @@ public class ListarClases extends HttpServlet {
         List<Curso> cursos = claseDAO.obtenerCursos();
         List<Docente> docentes = claseDAO.obtenerDocentes();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dayFormatter = new SimpleDateFormat("EEEE", new Locale("es", "ES"));
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -38,7 +42,6 @@ public class ListarClases extends HttpServlet {
         out.println("    <meta charset='UTF-8'>");
         out.println("    <meta name='viewport' content='width=device-width, initial-scale=1.0'>");
         out.println("    <title>Listado de Clases</title>");
-        out.println("    <link rel='stylesheet' href='styles.css'>");
         out.println("""
 <style>
 body {
@@ -248,11 +251,19 @@ margin-right: 5px;
         out.println("        </thead>");
         out.println("        <tbody>");
         for (Clase clase : clases) {
-            String startTimeFormatted = sdf.format(clase.getStartTime());
-            String endTimeFormatted = sdf.format(clase.getEndTime());
+            String startTimeFormatted = new SimpleDateFormat("h:mm a").format(clase.getStartTime());
+            String endTimeFormatted = new SimpleDateFormat("h:mm a").format(clase.getEndTime());
+            String dayFormatted = "";
+
+            try {
+                Date date = dateFormatter.parse(clase.getDay());
+                dayFormatted = dayFormatter.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             out.println("            <tr>");
-            out.println("                <td>" + clase.getDay() + "</td>");
+            out.println("                <td>" + dayFormatted + "</td>");
             out.println("                <td>" + startTimeFormatted + "</td>");
             out.println("                <td>" + endTimeFormatted + "</td>");
             out.println("                <td>" + getAulaById(aulas, clase.getIdClassroom()) + "</td>");
@@ -273,15 +284,14 @@ margin-right: 5px;
         out.println("            <span class='close'>&times;</span>");
         out.println("            <h2>Registrar Clase</h2>");
         out.println("            <form id='registroClaseForm' action='/registrarClase' method='post'>");
-        out.println("                <label for='day'>Día:</label>");
-        out.println("                <input type='text' id='day' name='day' required placeholder='Ej: Lunes'><br><br>");
+        out.println("                <label for='day'>Fecha:</label>");
+        out.println("                <input type='date' id='day' name='day' required><br><br>");
 
         out.println("                <label for='start_time'>Hora Inicio (AM/PM):</label>");
         out.println("                <input type='text' id='start_time' name='start_time' required placeholder='Ej: 9:00 AM'><br><br>");
 
         out.println("                <label for='end_time'>Hora Fin (AM/PM):</label>");
         out.println("                <input type='text' id='end_time' name='end_time' required placeholder='Ej: 10:30 AM'><br><br>");
-
 
         out.println("                <label for='id_classroom'>Aula:</label>");
         out.println("                <select id='id_classroom' name='id_classroom' required>");
@@ -308,7 +318,6 @@ margin-right: 5px;
         out.println("            </form>");
         out.println("        </div>");
         out.println("    </div>");
-
 
         out.println("    <script>");
         out.println("        var modal = document.getElementById('myModal');");

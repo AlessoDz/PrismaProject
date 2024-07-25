@@ -4,7 +4,6 @@ import pe.edu.utp.model.Aula;
 import pe.edu.utp.model.Clase;
 import pe.edu.utp.model.Curso;
 import pe.edu.utp.model.Docente;
-
 import java.util.List;
 
 public interface ClaseDAO {

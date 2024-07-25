@@ -10,34 +10,42 @@ import pe.edu.utp.repository.ClaseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/clasesPorDocente")
 public class ClasesPorDocente extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+    private ClaseDAO claseDAO = new ClaseDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-
         String idTeacher = request.getParameter("id_teacher");
 
         if (idTeacher == null || idTeacher.isEmpty()) {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("{\"status\":\"error\",\"message\":\"ID del docente es requerido.\"}");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
-        ClaseDAO claseDAO = new ClaseDAOImpl();
         List<Clase> clases = claseDAO.obtenerClasesPorDocente(idTeacher);
 
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        ObjectMapper mapper = new ObjectMapper();
         PrintWriter out = response.getWriter();
-        mapper.writeValue(out, clases);
+
+        // Convertir la lista de clases a formato JSON
+        out.print("[");
+        for (int i = 0; i < clases.size(); i++) {
+            Clase clase = clases.get(i);
+            out.print("{");
+            out.print("\"title\":\"Clase\",");
+            out.print("\"start\":\"" + clase.getDay() + "T" + clase.getStartTime() + "\",");
+            out.print("\"end\":\"" + clase.getDay() + "T" + clase.getEndTime() + "\",");
+            out.print("\"backgroundColor\":\"#ff9f00\",");
+            out.print("\"borderColor\":\"#ff9f00\"");
+            out.print("}");
+            if (i < clases.size() - 1) {
+                out.print(",");
+            }
+        }
+        out.print("]");
+        out.flush();
     }
 }

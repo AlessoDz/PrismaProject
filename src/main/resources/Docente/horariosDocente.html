@@ -3,19 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendario de Clases</title>
+    <title>Horario del Docente</title>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.2/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.11.2/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@5.11.2/main.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.2/locales/es.global.min.js'></script>
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #343a40;
+            text-align: center;
+            margin: 20px 0;
+        }
+
         #calendar {
-            max-width: 1100px;
-            margin: 0 auto;
+            width: 100%;
+            height: 100vh; /* Ajusta la altura del calendario */
+            background: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+
+        .fc-timegrid-slot {
+            border-bottom: 1px solid #dee2e6;
+            height: 60px; /* Altura de cada slot */
+            line-height: 60px; /* Alineación vertical del contenido */
+        }
+
+        .fc-timegrid-slot-inner {
+            padding: 0 10px; /* Padding horizontal */
+            background-color: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px; /* Espacio entre filas de horas (aproximadamente 2 líneas) */
+            display: flex;
+            align-items: center; /* Alinea el contenido verticalmente en el centro */
+        }
+
+        .fc-timegrid-slot-label {
+            font-size: 1rem;
+            color: #6c757d;
+            background-color: #f8f9fa;
+            padding: 10px 0;
+        }
+
+        .fc-timegrid-event {
+            border-radius: 4px;
+            padding: 8px;
+            font-size: 0.9rem;
+            color: #ffffff;
+            background-color: #007bff;
+            border: 1px solid #007bff;
+            margin-bottom: 10px; /* Espacio entre eventos */
+        }
+
+        .fc-daygrid-day-top {
+            background-color: #e9ecef;
+            border-bottom: 2px solid #dee2e6;
+            border-radius: 4px 4px 0 0;
+            padding: 10px;
+        }
+
+        .fc-daygrid-day-number {
+            font-size: 1.4rem;
+            color: #495057;
+        }
+
+        .fc-daygrid-day.fc-day-today {
+            background-color: #e9f7fa;
         }
     </style>
 </head>
 <body>
-<h1>Calendario de Clases</h1>
+<h1>MI HORARIO</h1>
 <div id='calendar'></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
 
-<script src='/JS/docenteHorario.js'></script>
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'es',
+            initialView: 'timeGridWeek',
+            firstDay: 1,
+            slotMinTime: '07:00:00',
+            slotMaxTime: '24:00:00',
+            slotDuration: '01:30:00', // Intervalo de una hora
+            events: function(fetchInfo, successCallback, failureCallback) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const idTeacher = urlParams.get('id_teacher');
+
+                if (!idTeacher) {
+                    console.error('No se ha especificado el ID del docente.');
+                    return;
+                }
+
+                fetch('/clasesPorDocente?id_teacher=' + idTeacher)
+                    .then(response => response.json())
+                    .then(data => {
+                        var events = data.map(clase => {
+                            const startDate = `${clase.start}`;
+                            const endDate = `${clase.end}`;
+
+                            return {
+                                title: 'Clase',
+                                start: startDate,
+                                end: endDate,
+                                backgroundColor: '#007bff',
+                                borderColor: '#007bff'
+                            };
+                        });
+
+                        successCallback(events);
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener las clases:', error);
+                        failureCallback(error);
+                    });
+            },
+            editable: false,
+            selectable: false,
+            allDaySlot: false,
+            slotLabelFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            },
+            eventTimeFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }
+        });
+
+        calendar.render();
+    });
+</script>
 </body>
 </html>

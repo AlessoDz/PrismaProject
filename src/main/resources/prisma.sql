@@ -535,50 +535,38 @@ END;;
 DELIMITER ;
 
 DELIMITER ;;
-CREATE PROCEDURE `registrarClase`(
+CREATE PROCEDURE `registrar_clase` (
     IN p_day VARCHAR(255),
-    IN p_end_time TIME,
     IN p_start_time TIME,
+    IN p_end_time TIME,
     IN p_id_classroom BIGINT,
     IN p_id_course BIGINT,
     IN p_id_teacher VARCHAR(10)
 )
 BEGIN
-    DECLARE classroom_exists INT;
-    DECLARE course_exists INT;
-    DECLARE teacher_exists INT;
+    DECLARE conflicts INT;
 
-    -- Verificar si el id_classroom existe en la tabla classroom
-    SELECT COUNT(*) INTO classroom_exists
-    FROM `classroom`
-    WHERE `id_classroom` = p_id_classroom;
+    -- Verificar si hay un cruce de horarios para el mismo docente en el mismo día
+    SELECT COUNT(*) INTO conflicts
+    FROM `class`
+    WHERE `id_teacher` = p_id_teacher
+      AND `day` = p_day
+      AND (
+            (p_start_time BETWEEN `start_time` AND `end_time`) OR
+            (p_end_time BETWEEN `start_time` AND `end_time`) OR
+            (`start_time` BETWEEN p_start_time AND p_end_time) OR
+            (`end_time` BETWEEN p_start_time AND p_end_time)
+          );
 
-    IF classroom_exists = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'El id_classroom no existe en la tabla classroom';
+    -- Si no hay conflictos, registrar la nueva clase
+    IF conflicts = 0 THEN
+        INSERT INTO `class` (`day`, `start_time`, `end_time`, `id_classroom`, `id_course`, `id_teacher`)
+        VALUES (p_day, p_start_time, p_end_time, p_id_classroom, p_id_course, p_id_teacher);
+    ELSE
+        -- Si hay conflictos, devolver un mensaje de error
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Conflicto de horarios para el docente en el mismo día';
     END IF;
-
-    SELECT COUNT(*) INTO course_exists
-    FROM `course`
-    WHERE `id_course` = p_id_course;
-
-    IF course_exists = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'El id_course no existe en la tabla course';
-    END IF;
-
-    SELECT COUNT(*) INTO teacher_exists
-    FROM `teacher`
-    WHERE `id_teacher` = p_id_teacher;
-
-    IF teacher_exists = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'El id_teacher no existe en la tabla teacher';
-    END IF;
-
-    INSERT INTO `class` (`day`, `end_time`, `start_time`, `id_classroom`, `id_course`, `id_teacher`)
-    VALUES (p_day, p_end_time, p_start_time, p_id_classroom, p_id_course, p_id_teacher);
-END ;;
+END;;
 
 DELIMITER ;
 

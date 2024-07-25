@@ -6,14 +6,17 @@ document.addEventListener('DOMContentLoaded', function() {
         initialView: 'dayGridWeek',
         firstDay: 1,
         events: function(fetchInfo, successCallback, failureCallback) {
-            var idTeacher = '1';
+            var idTeacher = '1'; // Cambia esto según el ID del docente que necesitas
             fetch('/clasesPorDocente?id_teacher=' + idTeacher)
                 .then(response => response.json())
                 .then(data => {
+                    // Asegúrate de que el formato de `data` coincida con lo esperado por FullCalendar
                     var events = data.map(clase => ({
-                        title: clase.title,
-                        start: clase.start,
-                        end: clase.end
+                        title: clase.title, // El título del evento
+                        start: clase.start, // La fecha y hora de inicio
+                        end: clase.end, // La fecha y hora de fin
+                        backgroundColor: clase.backgroundColor, // Color de fondo del evento
+                        borderColor: clase.borderColor // Color del borde del evento
                     }));
                     successCallback(events);
                 })
