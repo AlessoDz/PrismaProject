@@ -191,14 +191,14 @@ public class ListarEstudianteServlet extends HttpServlet {
         out.println("<form action='/registrarEstudiante' method='post'>");
         out.println("<label for='id_student'class='form-label'>ID del estudiante:</label>");
         out.println("<input type='text' id='id_student' name='id_student' class='form-input'><br>");
-        out.println("<label for='entrydate' class='form-label'>Fecha de Ingreso:</label>");
-        out.println("<input type='date' id='entrydate' name='entrydate' class='form-input'><br>");
+        out.println("<label for='entry_date' class='form-label'>Fecha de Ingreso:</label>");
+        out.println("<input type='date' id='entry_date' name='entry_date' class='form-input'><br>");
         out.println("<label for='grade' class='form-label'>Grado:</label>");
         out.println("<input type='number' id='grade' name='grade' class='form-input'><br>");
         out.println("<label for='password' class='form-label'>Contraseña:</label>");
         out.println("<input type='password' id='password' name='password' class='form-input'><br>");
         out.println("<label for='payment_status' class='form-label'>Estado de Pago:</label>");
-        out.println("<input type='checkbox' id='payment_status' name='payment_status' class='form-input'><br>");
+        out.println("<input type='text' id='payment_status' name='payment_status' class='form-input'><br>");
         out.println("<label for='profile' class='form-label'>Perfil:</label>");
         out.println("<input type='text' id='profile' name='profile' class='form-input'><br>");
         out.println("<label for='section' class='form-label'>Sección:</label>");

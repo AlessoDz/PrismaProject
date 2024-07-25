@@ -19,7 +19,7 @@ public class EstudianteDAOImpl implements EstudianteDAO {
         try (Connection conexion = ConexionBD.obtenerConexion();
              CallableStatement callableStatement = conexion.prepareCall(INSERTAR_ESTUDIANTE_SQL)) {
             callableStatement.setString(1, estudiante.getId_student());
-            callableStatement.setDate(2, Date.valueOf(estudiante.getEntrydate()));
+            callableStatement.setTimestamp(2, Timestamp.valueOf(estudiante.getEntrydate()));
             callableStatement.setInt(3, estudiante.getGrade());
             callableStatement.setString(4, estudiante.getPassword());
             callableStatement.setBoolean(5, estudiante.getPayment_status());
@@ -42,7 +42,7 @@ public class EstudianteDAOImpl implements EstudianteDAO {
             while (resultSet.next()) {
                 Estudiante estudiante = new Estudiante();
                 estudiante.setId_student(resultSet.getString("id_student"));
-                estudiante.setEntrydate(resultSet.getDate("entrydate").toLocalDate());
+                estudiante.setEntrydate(resultSet.getDate("entrydate").toLocalDate().atStartOfDay());
                 estudiante.setGrade(resultSet.getInt("grade"));
                 estudiante.setPassword(resultSet.getString("password"));
                 estudiante.setPayment_status(resultSet.getBoolean("payment_status"));
@@ -64,7 +64,7 @@ public class EstudianteDAOImpl implements EstudianteDAO {
         try (Connection conexion = ConexionBD.obtenerConexion();
              PreparedStatement preparedStatement = conexion.prepareCall(ACTUALIZAR_ESTUDIANTE_SQL)) {
             preparedStatement.setString(1, estudiante.getId_student());
-            preparedStatement.setDate(2, Date.valueOf(estudiante.getEntrydate()));
+            preparedStatement.setDate(2, Date.valueOf(String.valueOf(estudiante.getEntrydate())));
             preparedStatement.setInt(3, estudiante.getGrade());
             preparedStatement.setString(4, estudiante.getPassword());
             preparedStatement.setString(5, estudiante.getPassword());
@@ -107,7 +107,7 @@ public class EstudianteDAOImpl implements EstudianteDAO {
                 while (resultSet.next()) {
                     Estudiante estudiante = new Estudiante();
                     estudiante.setId_student(resultSet.getString("id_student"));
-                    estudiante.setEntrydate(resultSet.getDate("entrydate").toLocalDate());
+                    estudiante.setEntrydate(resultSet.getDate("entrydate").toLocalDate().atStartOfDay());
                     estudiante.setGrade(resultSet.getInt("grade"));
                     estudiante.setPassword(resultSet.getString("password"));
                     estudiante.setPayment_status(resultSet.getBoolean("payment_status"));

@@ -67,7 +67,7 @@ public class RegistrarEstudianteServlet extends HttpServlet {
         // Obtener los parámetros del formulario
         PrintWriter out = response.getWriter();
         String idStudent = request.getParameter("id_student");
-        String entryDateStr = request.getParameter("entrydate");
+        String entryDateStr = request.getParameter("entry_date");
         String gradeStr = request.getParameter("grade");
         String password = request.getParameter("password");
         String paymentStatusStr = request.getParameter("payment_status");
@@ -99,7 +99,7 @@ public class RegistrarEstudianteServlet extends HttpServlet {
 
         Estudiante estudiante = new Estudiante();
         estudiante.setId_student(idStudent);
-        estudiante.setEntrydate(entryDate);
+        estudiante.setEntrydate(entryDate.atStartOfDay());
         estudiante.setGrade(grade);
         estudiante.setPassword(password);
         estudiante.setPayment_status(paymentStatus);

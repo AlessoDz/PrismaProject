@@ -1,10 +1,11 @@
 package pe.edu.utp.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Estudiante {
     private String id_student;
-    private LocalDate entrydate;
+    private LocalDateTime entrydate;
     private int grade;
     private String password;
     private Boolean payment_status;
@@ -18,7 +19,7 @@ public class Estudiante {
     }
 
 
-    public Estudiante(String id_student, LocalDate entrydate, int grade, String password, Boolean payment_status, String profile, String section, String shift, String study_level) {
+    public Estudiante(String id_student, LocalDateTime entrydate, int grade, String password, Boolean payment_status, String profile, String section, String shift, String study_level) {
         this.id_student = id_student;
         this.entrydate = entrydate;
         this.grade = grade;
@@ -38,11 +39,11 @@ public class Estudiante {
         this.id_student = id_student;
     }
 
-    public LocalDate getEntrydate() {
+    public LocalDateTime getEntrydate() {
         return entrydate;
     }
 
-    public void setEntrydate(LocalDate entrydate) {
+    public void setEntrydate(LocalDateTime entrydate) {
         this.entrydate = entrydate;
     }
 

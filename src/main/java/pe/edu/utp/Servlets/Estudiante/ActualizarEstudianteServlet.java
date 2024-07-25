@@ -28,7 +28,7 @@ public class ActualizarEstudianteServlet extends HttpServlet {
 
         Estudiante estudiante = new Estudiante();
         estudiante.setId_student(idStudent);
-        estudiante.setEntrydate(LocalDate.parse(entryDateStr));
+        estudiante.setEntrydate(LocalDate.parse(entryDateStr).atStartOfDay());
         estudiante.setGrade(Integer.parseInt(gradeStr));
         estudiante.setPassword(password);
         estudiante.setPayment_status(Boolean.valueOf(paymentStatusStr));
