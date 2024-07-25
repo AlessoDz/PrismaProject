@@ -89,8 +89,7 @@ CREATE TABLE `applicant` (
 --
 -- Table structure for table `student`
 --
-
---DROP TABLE IF EXISTS `student`;
+DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
@@ -110,6 +109,7 @@ CREATE TABLE `student` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
 -- Table structure for table `classroom`
 --
 DROP TABLE IF EXISTS `classroom`;
@@ -566,6 +566,145 @@ BEGIN
         -- Si hay conflictos, devolver un mensaje de error
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Conflicto de horarios para el docente en el mismo día';
     END IF;
+END;;
+
+DELIMITER ;
+
+DELIMITER ;;
+
+-- Procedimiento para listar administradores
+CREATE PROCEDURE listarAdministrador()
+BEGIN
+    SELECT
+        a.id_admin,
+        a.profile,
+        a.password,
+        u.name,
+        u.last_name,
+        u.birth_date,
+        u.dni,
+        u.email,
+        u.phone,
+        r.registration_date
+    FROM
+        admin a
+        INNER JOIN `user` u ON a.id_user = u.id_user
+        INNER JOIN registration r ON r.id_user = a.id_user
+    WHERE
+        u.type = 'Administrador' AND r.status = 'activo';
+END;;
+
+-- Procedimiento para registrar administrador
+CREATE PROCEDURE registrarAdministrador (
+    IN p_id_admin INT,
+    IN p_password VARCHAR(255),
+    IN p_profile VARCHAR(255),
+    IN p_name VARCHAR(255),
+    IN p_last_name VARCHAR(255),
+    IN p_birth_date VARCHAR(10),
+    IN p_dni VARCHAR(20),
+    IN p_email VARCHAR(100),
+    IN p_phone VARCHAR(20)
+)
+BEGIN
+    DECLARE v_user_id INT;
+
+    -- Insertar nuevo usuario
+    INSERT INTO `user` (name, last_name, birth_date, dni, email, phone, type, active)
+    VALUES (p_name, p_last_name, p_birth_date, p_dni, p_email, p_phone, 'Administrador', 1);
+
+    -- Obtener el ID del nuevo usuario
+    SET v_user_id = LAST_INSERT_ID();
+
+    -- Insertar nuevo administrador
+    INSERT INTO admin (id_user, profile, password)
+    VALUES (v_user_id, p_profile, p_password);
+
+    -- Registrar inscripción del administrador
+    INSERT INTO registration (id_user, registration_date, status)
+    VALUES (v_user_id, NOW(), 'activo');
+
+    -- Finalizar procedimiento
+    COMMIT;
+END;;
+
+-- Procedimiento para actualizar administrador
+CREATE PROCEDURE actualizarAdministrador (
+    IN p_admin_id INT,
+    IN p_password VARCHAR(255),
+    IN p_profile VARCHAR(255),
+    IN p_name VARCHAR(255),
+    IN p_last_name VARCHAR(255),
+    IN p_birth_date VARCHAR(10),
+    IN p_dni VARCHAR(20),
+    IN p_email VARCHAR(100),
+    IN p_phone VARCHAR(20)
+)
+BEGIN
+    DECLARE v_user_id INT;
+
+    -- Obtener el ID del usuario asociado al administrador
+    SELECT id_user INTO v_user_id FROM admin WHERE id_admin = p_admin_id;
+
+    -- Actualizar datos del usuario
+    UPDATE `user`
+    SET
+        name = p_name,
+        last_name = p_last_name,
+        birth_date = p_birth_date,
+        dni = p_dni,
+        email = p_email,
+        phone = p_phone
+    WHERE id_user = v_user_id;
+
+    -- Actualizar perfil y contraseña del administrador
+    UPDATE admin
+    SET
+        password = p_password,
+        profile = p_profile
+    WHERE id_admin = p_admin_id;
+
+    -- Finalizar procedimiento
+    COMMIT;
+END;;
+
+-- Procedimiento para eliminar administrador
+CREATE PROCEDURE eliminarAdministrador (
+    IN p_id_admin INT
+)
+BEGIN
+    DECLARE v_user_id INT;
+
+    -- Obtener el ID de usuario asociado al administrador
+    SELECT id_user INTO v_user_id FROM admin WHERE id_admin = p_id_admin;
+
+    -- Verificar si se encontró un ID de usuario válido
+    IF v_user_id IS NOT NULL THEN
+        -- Eliminar administrador de la tabla admin
+        DELETE FROM admin WHERE id_admin = p_id_admin;
+
+        -- Actualizar el estado del usuario a "eliminado" en la tabla user
+        UPDATE `user` SET active = 0 WHERE id_user = v_user_id;
+
+        -- Actualizar el registro de inscripción asociado al usuario a "eliminado"
+        UPDATE registration SET status = 'eliminado' WHERE id_user = v_user_id;
+
+        -- Finalizar procedimiento
+        COMMIT;
+    ELSE
+        -- Mostrar mensaje de error o registrar un evento de error
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se encontró un usuario asociado al administrador';
+    END IF;
+END;;
+
+-- Procedimiento para buscar administradores
+CREATE PROCEDURE buscarAdministradores(IN nombre VARCHAR(255))
+BEGIN
+    SELECT
+        a.id_admin, a.profile, u.name, u.last_name, u.email, u.phone
+    FROM admin a
+    INNER JOIN user u ON a.id_user = u.id_user
+    WHERE u.name LIKE CONCAT('%', nombre, '%');
 END;;
 
 DELIMITER ;

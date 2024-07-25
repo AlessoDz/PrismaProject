@@ -130,7 +130,7 @@ public class listarAdministrador extends HttpServlet {
         out.println("<h1>Listado de Administradores</h1>");
 
         // Formulario de búsqueda
-        out.println("<form action='/listarAdministradores' method='get'>");
+        out.println("<form action='/listarAdministrador' method='get'>");
         out.println("<input type='text' name='query' placeholder='Buscar administradores...' class='form-input'>");
         out.println("<input type='submit' value='Buscar' class='btn'>");
         out.println("</form>");
@@ -184,14 +184,12 @@ public class listarAdministrador extends HttpServlet {
         out.println("<span class='close' onclick='cerrarModal()'>&times;</span>");
         out.println("<h2>Registrar Administrador</h2>");
         out.println("<form action='/registrarAdministrador' method='post'>");
-        out.println("<label class='form-label'>ID del Docente:</label><br>");
+        out.println("<label class='form-label'>ID del Administrador:</label><br>");
         out.println("<input type='text' name='id_admin' class='form-input'><br>");
         out.println("<label class='form-label'>Contraseña:</label><br>");
         out.println("<input type='password' name='password' class='form-input'><br>");
         out.println("<label class='form-label'>Código:</label><br>");
         out.println("<input type='text' name='profile' class='form-input'><br>");
-        out.println("<label for='speciality' class='form-label'>Especialidad</label>");
-        out.println("<input type='text' id='speciality' name='speciality_name' class='form-input' required>");
         out.println("<label for='nombre' class='form-label'>Nombre</label>");
         out.println("<input type='text' id='nombre' name='name' class='form-input' required>");
         out.println("<label for='apellido' class='form-label'>Apellido</label>");
