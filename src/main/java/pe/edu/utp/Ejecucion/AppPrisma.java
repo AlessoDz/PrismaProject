@@ -4,14 +4,21 @@ import pe.edu.utp.Servlets.Aulas.EditarAula;
 import pe.edu.utp.Servlets.Aulas.EliminarAula;
 import pe.edu.utp.Servlets.Aulas.ListarAulaServlet;
 import pe.edu.utp.Servlets.Aulas.registrarAula;
-import pe.edu.utp.Servlets.Clases.EliminarClase;
+import pe.edu.utp.Servlets.Clases.EditarClase;
 import pe.edu.utp.Servlets.Clases.ListarClases;
 import pe.edu.utp.Servlets.Clases.RegistrarClase;
 import pe.edu.utp.Servlets.Cursos.EditarCursoServlet;
 import pe.edu.utp.Servlets.Cursos.EliminarCurso;
 import pe.edu.utp.Servlets.Cursos.ListarCursosServlet;
 import pe.edu.utp.Servlets.Cursos.RegistrarCursoServlet;
-import pe.edu.utp.Servlets.Docente.*;
+import pe.edu.utp.Servlets.Docente.ActualizarDocente;
+import pe.edu.utp.Servlets.Docente.EliminarDocente;
+import pe.edu.utp.Servlets.Docente.ListarDocente;
+import pe.edu.utp.Servlets.Docente.RegistrarDocente;
+import pe.edu.utp.Servlets.Estudiante.ActualizarEstudianteServlet;
+import pe.edu.utp.Servlets.Estudiante.EliminarEstudianteServlet;
+import pe.edu.utp.Servlets.Estudiante.ListarEstudianteServlet;
+import pe.edu.utp.Servlets.Estudiante.RegistrarEstudianteServlet;
 import pe.edu.utp.Servlets.Login.LoginServlet;
 import pe.edu.utp.Servlets.Vacantes.AceptarVacanteServlet;
 import pe.edu.utp.Servlets.Vacantes.ListarVacantesServlet;
@@ -42,8 +49,13 @@ public class AppPrisma {
         webserver.addServlet(EliminarAula.class,"/eliminarAula");
         webserver.addServlet(ListarClases.class,"/listarClases");
         webserver.addServlet(RegistrarClase.class,"/registrarClase");
-        webserver.addServlet(EliminarClase.class,"/eliminarClase");
-        webserver.addServlet(ClasesPorDocente.class,"/clasesPorDocente");
+        webserver.addServlet(RegistrarEstudianteServlet.class,"/registrarEstudiante");
+        webserver.addServlet(ListarEstudianteServlet.class,"/listarEstudiante");
+        webserver.addServlet(ActualizarEstudianteServlet.class,"/actualizarEstudiante");
+        webserver.addServlet(EliminarEstudianteServlet.class,"/eliminarEstudiante");
+
+
+
 
 
         URL myURL = new URL("http://localhost:8080");
