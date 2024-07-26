@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Estudiante</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .form-container input, .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #218838;
+        }
+        .form-container .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Registrar Estudiante</h2>
+    <form action="/aceptarVacante" method="post">
+        <input type="hidden" name="id_user" value="<!-- Inserta aquí el ID del usuario -->" />
+
+        <label for="id_student">ID Estudiante:</label>
+        <input type="text" id="id_student" name="id_student" required />
+
+        <label for="entry_date">Fecha de Entrada:</label>
+        <input type="date" id="entry_date" name="entry_date" required />
+
+        <label for="grade">Grado:</label>
+        <input type="number" id="grade" name="grade" required />
+
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required />
+
+        <label for="payment_status">Estado de Pago:</label>
+        <select id="payment_status" name="payment_status" required>
+            <option value="true">Pagado</option>
+            <option value="false">No Pagado</option>
+        </select>
+
+        <label for="profile">Perfil:</label>
+        <input type="text" id="profile" name="profile" required />
+
+        <label for="section">Sección:</label>
+        <input type="text" id="section" name="section" required />
+
+        <label for="shift">Turno:</label>
+        <input type="text" id="shift" name="shift" required />
+
+        <label for="study_level">Nivel de Estudio:</label>
+        <input type="text" id="study_level" name="study_level" required />
+
+        <button type="submit">Registrar Estudiante</button>
+    </form>
+</div>
+</body>
+</html>

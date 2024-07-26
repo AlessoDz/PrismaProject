@@ -1,8 +1,6 @@
 package pe.edu.utp.repository;
 
-
 import pe.edu.utp.model.Estudiante;
-
 import java.util.List;
 
 public interface EstudianteDAO {

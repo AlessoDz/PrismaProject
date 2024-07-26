@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class ConexionBD {
     private static final String URL = "jdbc:mysql://localhost:3306/prisma?useSSL=false&serverTimezone=UTC";
-    private static final String USUARIO = "root";
-    private static final String CONTRASENA = "123456";
+    private static final String USUARIO = "colegioPrisma";
+    private static final String CONTRASENA = "prisma1234";
 
     public static Connection obtenerConexion() {
         Connection conexion = null;
